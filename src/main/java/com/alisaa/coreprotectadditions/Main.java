@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
             pluginManager.disablePlugin(this);
             return;
         }
-        CoreProtectAPI api = ((CoreProtect) depend).getAPI();        
+        ApiWrapper api = new ApiWrapper();        
 
         ConfigHandler.initConfig(this);
 

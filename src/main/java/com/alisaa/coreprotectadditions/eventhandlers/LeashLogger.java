@@ -1,6 +1,5 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Material;
 import org.bukkit.Location;
 import org.bukkit.entity.LeashHitch;
@@ -14,12 +13,14 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.player.PlayerUnleashEntityEvent;
 
+import com.alisaa.coreprotectadditions.ApiWrapper;
+
 import io.papermc.paper.entity.Leashable;
 
 public class LeashLogger implements Listener {
-    private CoreProtectAPI api;
+    private ApiWrapper api;
 
-    public LeashLogger(CoreProtectAPI api) {
+    public LeashLogger(ApiWrapper api) {
         this.api = api;
     }
 
@@ -28,20 +29,20 @@ public class LeashLogger implements Listener {
         Leashable entity = (Leashable) e.getEntity();
 
         if (e instanceof PlayerUnleashEntityEvent ep) {
-            api.logRemoval(ep.getPlayer().getName(), entity.getLocation(), Material.LEAD, null);
+            api.logRemoval(ep.getPlayer(), entity.getLocation(), Material.LEAD);
             return;
         }
 
         // If a player was holding the leash, log as player
         Entity leashHolder = entity.getLeashHolder();
         if (leashHolder instanceof Player) {
-            api.logRemoval(leashHolder.getName(), entity.getLocation(), Material.LEAD, null);
+            api.logRemoval(leashHolder, entity.getLocation(), Material.LEAD);
             return;
         }
 
         // Check who was riding the entity and log as player
         if (!entity.isEmpty() && entity.getPassengers().getFirst() instanceof Player passenger) {
-            api.logRemoval(passenger.getName(), entity.getLocation(), Material.LEAD, null);
+            api.logRemoval(passenger, entity.getLocation(), Material.LEAD);
             return;
         }
 
@@ -51,8 +52,7 @@ public class LeashLogger implements Listener {
         }
 
         // if all else fails log as entity breaking own leash
-        api.logRemoval("#" + entity.getName().toLowerCase().replace(" ", "_"), entity.getLocation(), Material.LEAD,
-                null);
+        api.logRemoval(entity, entity.getLocation(), Material.LEAD);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -64,12 +64,7 @@ public class LeashLogger implements Listener {
         Location pos = e.getEntity().getLocation();
 
         if (e instanceof HangingBreakByEntityEvent eb) {
-            Entity remover = eb.getRemover();
-            if (remover instanceof Player) {
-                api.logRemoval(remover.getName(), pos, Material.LEAD, null);
-                return;
-            }
-            api.logRemoval("#" + remover.getName().toLowerCase().replace(" ", "_"), pos, Material.LEAD, null);
+            api.logRemoval(eb.getRemover(), pos, Material.LEAD);
             return;
         }
 

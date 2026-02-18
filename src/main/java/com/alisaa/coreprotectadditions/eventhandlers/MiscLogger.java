@@ -2,7 +2,6 @@ package com.alisaa.coreprotectadditions.eventhandlers;
 
 import net.coreprotect.CoreProtectAPI;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

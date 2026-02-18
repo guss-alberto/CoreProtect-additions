@@ -1,6 +1,5 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Material;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -14,10 +13,12 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
-public class CreeperLogger implements Listener {
-    private CoreProtectAPI api;
+import com.alisaa.coreprotectadditions.ApiWrapper;
 
-    public CreeperLogger(CoreProtectAPI api) {
+public class CreeperLogger implements Listener {
+    private ApiWrapper api;
+
+    public CreeperLogger(ApiWrapper api) {
         this.api = api;
     }
 
@@ -25,19 +26,13 @@ public class CreeperLogger implements Listener {
     public void onExplosionPrime(ExplosionPrimeEvent e) {
         Entity entity = e.getEntity();
         if (entity instanceof Creeper creeper) {
-            if (creeper.getIgniter() instanceof Player igniter) {
-                api.logRemoval(igniter.getName(), creeper.getLocation(), Material.CREEPER_SPAWN_EGG, null);
+            Entity igniter = creeper.getIgniter();
+            if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
                 return;
             }
+
             LivingEntity target = creeper.getTarget();
-            if (target instanceof Player player) {
-                api.logRemoval(player.getName(), creeper.getLocation(), Material.CREEPER_SPAWN_EGG, null);
-                return;
-            }
-            if (target != null) {
-                api.logRemoval("#" + target.getName().toLowerCase().replace(" ", "_"), creeper.getLocation(),
-                        Material.CREEPER_SPAWN_EGG, null);
-            }
+            api.logRemoval(target, creeper.getLocation(), Material.CREEPER_SPAWN_EGG);
         }
     }
 
@@ -47,15 +42,7 @@ public class CreeperLogger implements Listener {
             ProjectileSource shooter = fireball.getShooter();
             if (shooter instanceof Mob mob) {
                 LivingEntity target = mob.getTarget();
-                if (target instanceof Player player) {
-                    api.logRemoval(player.getName(), fireball.getLocation(), Material.FIRE_CHARGE, null);
-                    return;
-                }
-                if (target != null) {
-                    api.logRemoval("#" + target.getName().toLowerCase().replace(" ", "_"), fireball.getLocation(),
-                            Material.FIRE_CHARGE, null);
-                }
-
+                api.logRemoval(target, fireball.getLocation(), Material.FIRE_CHARGE);
             } else {
                 api.logRemoval("#fireball", fireball.getLocation(), Material.FIRE_CHARGE, null);
             }
