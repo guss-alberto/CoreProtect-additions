@@ -30,6 +30,7 @@ public class ConfigHandler {
     public static boolean LOG_INVENTORY_RIDE;
     public static boolean LOG_BOAT_RIDE;
     public static boolean LOG_MINECART_RIDE;
+    public static boolean LOG_NON_PLAYER_RIDE;
 
 
     static FileConfiguration config;
@@ -88,6 +89,9 @@ public class ConfigHandler {
         
         configEntries.add(new ConfigEntry("log-boat-ride", false, null));
         LOG_BOAT_RIDE = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-non-player-ride", false, "# Whether to also log entities entering vehicles, not just players"));
+        LOG_NON_PLAYER_RIDE = configEntries.getLast().getValue();
 
         saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);
     }

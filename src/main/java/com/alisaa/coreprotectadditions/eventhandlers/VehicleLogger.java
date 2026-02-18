@@ -57,7 +57,9 @@ public class VehicleLogger implements Listener {
     }
 
     private boolean shouldLogRiding(Entity entity) {
-        if (ConfigHandler.LOG_INVENTORY_RIDE && entity instanceof InventoryHolder) {
+        if (ConfigHandler.LOG_INVENTORY_RIDE && entity instanceof InventoryHolder inventory && 
+            !inventory.getInventory().isEmpty()
+        ) {
             return true;
         }
         if (ConfigHandler.LOG_MOB_RIDE && entity instanceof Mob) {
@@ -112,7 +114,7 @@ public class VehicleLogger implements Listener {
     public void onEntityMount(EntityMountEvent e) {
         Entity rider = e.getEntity();
 
-        if (!(rider instanceof Player)) {
+        if (!ConfigHandler.LOG_NON_PLAYER_RIDE && !(rider instanceof Player)) {
             return;
         }
 
