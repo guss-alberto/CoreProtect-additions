@@ -1,6 +1,6 @@
 # CoreProtect-additions
 
-CoreProtect-additions is an addon for [CoreProtect](https://github.com/playPro/coreProtect) that adds logging for extra features that are currently unsupported by CoreProtect.
+CoreProtect-additions is an addon for [CoreProtect](https://modrinth.com/plugin/coreprotect) that adds logging for extra features that are currently unsupported by CoreProtect.
 
 Logging has been added for
 - Renaming mobs with a name tag
@@ -13,6 +13,7 @@ Logging has been added for
 - Leashing and unleashing mobs
 - Setting spawn on a Bed or Respawn Anchor
 - Exploding a Bed or Respawn Anchor
+- Opening entity container GUIs.
 
 # Logging details
 
@@ -37,11 +38,11 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 
 The `a:click` action is used for everything else:
 - `a:click i:tnt`: igniting TNT
-- `a:click i:creeper_spawn_egg`: igniying a creeper with a flint and steel, coordinates of the creeper at time of explosion (NOT logged when creepere ignited).
+- `a:click i:creeper_spawn_egg`: igniying a creeper with a flint and steel, coordinates of the creeper at time of explosion (NOT logged when the creeper was ignited).
 - `a:click i:<bed>`: setting spawn on a Bed or exploding it (with a specified bed colour e.g. `magenta_bed`) 
 - `a:click i:respawn_anchor`: setting spawn on a Respawn Anchor or exploding it.
 - `a:click i:<spawn_egg>`: clicking on a chested mob (Llama, donkey, etc..).
-- `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..).
+- `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..), or mounting/dismounting it (boat, minecart).
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
