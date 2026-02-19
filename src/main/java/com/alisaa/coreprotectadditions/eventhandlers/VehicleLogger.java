@@ -34,42 +34,40 @@ public class VehicleLogger implements Listener {
         if (entity instanceof ExplosiveMinecart) {
             return true;
         }
-        if (!ConfigHandler.LOG_CHEST_BOAT && entity instanceof ChestBoat) {
-            return false;
+
+        if (entity instanceof Boat) {
+            if ( entity instanceof ChestBoat ){
+                return ConfigHandler.LOG_CHEST_BOAT;
+            }
+            return ConfigHandler.LOG_BOAT;
         }
 
-        if (ConfigHandler.LOG_BOAT && entity instanceof Boat) {
-            return true;
-        }
-
-        if (!ConfigHandler.LOG_HOPPER_MINECART && entity instanceof HopperMinecart) {
-            return false;
-        }
-
-        if (!ConfigHandler.LOG_CHEST_MINECART && entity instanceof StorageMinecart) {
-            return false;
-        }
-
-        if (ConfigHandler.LOG_MINECART && entity instanceof Minecart) {
-            return true;
+        if (entity instanceof Minecart){
+            if (entity instanceof HopperMinecart){
+                return ConfigHandler.LOG_HOPPER_MINECART;
+            }
+            if (entity instanceof StorageMinecart){
+                return ConfigHandler.LOG_CHEST_MINECART;
+            }
+            return ConfigHandler.LOG_MINECART;
         }
 
         return false;
     }
 
     private boolean shouldLogRiding(Entity entity) {
-        if (ConfigHandler.LOG_INVENTORY_RIDE && entity instanceof InventoryHolder inventory &&
-                !inventory.getInventory().isEmpty()) {
-            return true;
-        }
         if (ConfigHandler.LOG_MOB_RIDE && entity instanceof Mob) {
             return true;
         }
         if (ConfigHandler.LOG_MINECART_RIDE && entity instanceof Minecart) {
             return true;
         }
-        if (ConfigHandler.LOG_BOAT_RIDE && entity instanceof Boat) {
-            return true;
+
+        if (entity instanceof Boat) {
+            if ( entity instanceof ChestBoat ){
+                return ConfigHandler.LOG_CHEST_BOAT_RIDE;
+            }
+            return ConfigHandler.LOG_BOAT_RIDE;
         }
 
         return false;

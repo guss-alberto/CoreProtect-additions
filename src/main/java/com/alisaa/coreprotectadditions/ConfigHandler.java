@@ -14,6 +14,8 @@ public class ConfigHandler {
             # CoreProtect-additions by itsAlisaa
             # Configuration file, for more info on the plugin check out the readme https://github.com/guss-alberto/CoreProtect-additions
             
+            # Note: user comments in this file DO NOT persist.
+
             """;
     public static boolean LOG_SPAWN_SET;
     public static boolean LOG_ENTITY_DYE;
@@ -27,7 +29,7 @@ public class ConfigHandler {
     public static boolean LOG_BOAT;
     public static boolean LOG_CHEST_BOAT;
     public static boolean LOG_MOB_RIDE;
-    public static boolean LOG_INVENTORY_RIDE;
+    public static boolean LOG_CHEST_BOAT_RIDE;
     public static boolean LOG_BOAT_RIDE;
     public static boolean LOG_MINECART_RIDE;
     public static boolean LOG_NON_PLAYER_RIDE;
@@ -79,18 +81,22 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-minecarts", true, "# This includes also furnace minecarts. TNT carts are always logged"));
         LOG_MINECART = configEntries.getLast().getValue();
 
-        configEntries.add(new ConfigEntry("log-inventory-ride", true, "\n# Log riding/dismounting for rideable entities\n" + //
-                                                                                        "#Whether to log riding entities with inventories (donkeys, llamas, chest boats etc.)"));
-        LOG_INVENTORY_RIDE = configEntries.getLast().getValue();
-
-        configEntries.add(new ConfigEntry("log-mob-ride", true, null));
+        
+        configEntries.add(new ConfigEntry("log-mob-ride", true, "\n# Log riding/dismounting for rideable entities\n"));
         LOG_MOB_RIDE = configEntries.getLast().getValue();
-
+        
         configEntries.add(new ConfigEntry("log-minecart-ride", false, "# Riding boats and minecarts is logged the same as breaking and placing them, so it can be confusing"));
         LOG_MINECART_RIDE = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-chest.boat-ride", true, null));
+        LOG_CHEST_BOAT_RIDE = configEntries.getLast().getValue();
         
         configEntries.add(new ConfigEntry("log-boat-ride", false, null));
         LOG_BOAT_RIDE = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-ride-dismount-as-click", false, "# Whether to log riding and dismounting as a click action, instead of place and break. ONLY applies to non-mob rides (minecarts and boats)\n"+
+                                                                                                 "# Intended to make it easier to distinguish riding from placing. Might be confusing with log-entity-container-click"
+        ));
 
         configEntries.add(new ConfigEntry("log-non-player-ride", false, "# Whether to also log entities entering vehicles, not just players"));
         LOG_NON_PLAYER_RIDE = configEntries.getLast().getValue();
@@ -99,9 +105,7 @@ public class ConfigHandler {
         LOG_ENTITY_CONTAINER_CLICK = configEntries.getLast().getValue();
 
 
-        configEntries.add(new ConfigEntry("log-ride-dismount-as-click", false, "# Whether to log riding and dismounting as a click action, instead of place and break. Only applies to non-mob rides (minecarts and boats)\n"+
-                                                                                                 "# Intended to make it easier to distinguish riding from placing. Might be confusing with log-entity-container-click"
-        ));
+
         LOG_RIDE_AS_CLICK = configEntries.getLast().getValue();
 
 
