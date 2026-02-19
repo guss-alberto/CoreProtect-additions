@@ -29,7 +29,7 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 ----
 
 -  `a:block i:<vehicle>`: placing or breaking a Minecart or Boat of any kind (vehicle will refer to the particular vehicle e.g. `oak_chest_boat`)
--  `a:block i:<vehicle>`: entering or exiting a Minecart of Boat (if enabled in config)
+-  `a:block i:<spawn_egg>`: entering or exiting a Minecart of Boat (if enabled in config)
 -  `a:block i:<spawn_egg>`: mounting or dismounting a Mob, spawn egg reprsents the mob ridden.
 -  `a:block i:lead`: placing or breaking a Leash. This includes riding away with a leashed mob. At the coordinates of the leash knot or the entity that was unleashed depending on the situation.
 

@@ -13,7 +13,7 @@ public class ConfigHandler {
     public static final String HEADER = """
             # CoreProtect-additions by itsAlisaa
             # Configuration file, for more info on the plugin check out the readme https://github.com/guss-alberto/CoreProtect-additions
-            
+
             # Note: user comments in this file DO NOT persist.
 
             """;
@@ -36,11 +36,11 @@ public class ConfigHandler {
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean LOG_RIDE_AS_CLICK;
 
-
     static FileConfiguration config;
 
-    private ConfigHandler(){}
-    
+    private ConfigHandler() {
+    }
+
     static void initConfig(Plugin plugin){
         config = plugin.getConfig();
         final List<ConfigEntry> configEntries = new ArrayList<>();
@@ -85,18 +85,24 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-mob-ride", true, "\n# Log riding/dismounting for rideable entities\n"));
         LOG_MOB_RIDE = configEntries.getLast().getValue();
         
-        configEntries.add(new ConfigEntry("log-minecart-ride", false, "# Riding boats and minecarts is logged the same as breaking and placing them, so it can be confusing"));
+        configEntries.add(new ConfigEntry("log-minecart-ride", true, null));
         LOG_MINECART_RIDE = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-chest.boat-ride", true, null));
         LOG_CHEST_BOAT_RIDE = configEntries.getLast().getValue();
         
-        configEntries.add(new ConfigEntry("log-boat-ride", false, null));
+        configEntries.add(new ConfigEntry("log-boat-ride", true, null));
         LOG_BOAT_RIDE = configEntries.getLast().getValue();
 
-        configEntries.add(new ConfigEntry("log-ride-dismount-as-click", false, "# Whether to log riding and dismounting as a click action, instead of place and break. ONLY applies to non-mob rides (minecarts and boats)\n"+
-                                                                                                 "# Intended to make it easier to distinguish riding from placing. Might be confusing with log-entity-container-click"
+        configEntries.add(new ConfigEntry("log-cart-ride-dismount-as-click", true, """
+        
+        # Whether to log riding and dismounting as a click action, instead of place and break. ONLY applies to non-mob rides (minecarts and boats)
+        # With this option enabled riding and dismounting are BOTH logged as click.
+        # Clicking can be confused with chest boat inventory opening.
+        # Setting this to FALSE to log as block actions, just like placing and breaking.
+        """
         ));
+        LOG_RIDE_AS_CLICK = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-non-player-ride", false, "# Whether to also log entities entering vehicles, not just players"));
         LOG_NON_PLAYER_RIDE = configEntries.getLast().getValue();
@@ -106,19 +112,18 @@ public class ConfigHandler {
 
 
 
-        LOG_RIDE_AS_CLICK = configEntries.getLast().getValue();
 
 
         saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);
     }
 
-    private static void saveConfigFile(File file, List<ConfigEntry> configEntries){
-        try (final FileOutputStream fout = new FileOutputStream(file)){
+    private static void saveConfigFile(File file, List<ConfigEntry> configEntries) {
+        try (final FileOutputStream fout = new FileOutputStream(file)) {
             fout.write(HEADER.getBytes());
             for (ConfigEntry configEntry : configEntries) {
                 fout.write(configEntry.toString().getBytes());
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             Bukkit.getLogger().severe("Failed to save config file");
             e.printStackTrace();
         }
@@ -129,21 +134,21 @@ public class ConfigHandler {
         String descrption;
         boolean value;
 
-        public ConfigEntry(String key, Boolean defaultValue, String descrption){
+        public ConfigEntry(String key, Boolean defaultValue, String descrption) {
             this.key = key;
             this.descrption = descrption;
             config.addDefault(key, defaultValue);
             this.value = config.getBoolean(key);
         }
 
-        public boolean getValue(){
+        public boolean getValue() {
             return value;
         }
 
-        public String toString(){
+        public String toString() {
             String entry = this.key + ": " + this.value;
-            if (descrption != null){
-                entry = this.descrption + "\n" + entry; 
+            if (descrption != null) {
+                entry = this.descrption + "\n" + entry;
             }
             return entry + "\n";
         }
