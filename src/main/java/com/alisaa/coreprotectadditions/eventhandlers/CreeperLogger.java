@@ -5,7 +5,6 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.SizedFireball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
