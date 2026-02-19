@@ -88,7 +88,7 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-minecart-ride", true, null));
         LOG_MINECART_RIDE = configEntries.getLast().getValue();
 
-        configEntries.add(new ConfigEntry("log-chest.boat-ride", true, null));
+        configEntries.add(new ConfigEntry("log-chest-boat-ride", true, null));
         LOG_CHEST_BOAT_RIDE = configEntries.getLast().getValue();
         
         configEntries.add(new ConfigEntry("log-boat-ride", true, null));
@@ -99,8 +99,7 @@ public class ConfigHandler {
         # Whether to log riding and dismounting as a click action, instead of place and break. ONLY applies to non-mob rides (minecarts and boats)
         # With this option enabled riding and dismounting are BOTH logged as click.
         # Clicking can be confused with chest boat inventory opening.
-        # Setting this to FALSE to log as block actions, just like placing and breaking.
-        """
+        # Setting this to FALSE to log as block actions, just as for mobs"""
         ));
         LOG_RIDE_AS_CLICK = configEntries.getLast().getValue();
 
