@@ -7,7 +7,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.projectiles.ProjectileSource;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;

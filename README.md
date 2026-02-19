@@ -37,8 +37,11 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 
 The `a:click` action is used for everything else:
 - `a:click i:tnt`: igniting TNT
+- `a:click i:creeper_spawn_egg`: igniying a creeper with a flint and steel, coordinates of the creeper at time of explosion (NOT logged when creepere ignited).
 - `a:click i:<bed>`: setting spawn on a Bed or exploding it (with a specified bed colour e.g. `magenta_bed`) 
 - `a:click i:respawn_anchor`: setting spawn on a Respawn Anchor or exploding it.
+- `a:click i:<spawn_egg>`: clicking on a chested mob (Llama, donkey, etc..).
+- `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..).
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
