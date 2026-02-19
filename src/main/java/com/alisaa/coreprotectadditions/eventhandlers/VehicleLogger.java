@@ -1,11 +1,10 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
-import net.coreprotect.CoreProtectAPI;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Boat;
 import org.bukkit.entity.ChestBoat;
+import org.bukkit.entity.ChestedHorse;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Mob;
@@ -17,15 +16,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDismountEvent;
 import org.bukkit.event.entity.EntityMountEvent;
 import org.bukkit.event.entity.EntityPlaceEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.InventoryHolder;
 
+import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
 
 public class VehicleLogger implements Listener {
-    private CoreProtectAPI api;
+    private ApiWrapper api;
 
-    public VehicleLogger(CoreProtectAPI api) {
+    public VehicleLogger(ApiWrapper api) {
         this.api = api;
     }
 
@@ -57,9 +58,8 @@ public class VehicleLogger implements Listener {
     }
 
     private boolean shouldLogRiding(Entity entity) {
-        if (ConfigHandler.LOG_INVENTORY_RIDE && entity instanceof InventoryHolder inventory && 
-            !inventory.getInventory().isEmpty()
-        ) {
+        if (ConfigHandler.LOG_INVENTORY_RIDE && entity instanceof InventoryHolder inventory &&
+                !inventory.getInventory().isEmpty()) {
             return true;
         }
         if (ConfigHandler.LOG_MOB_RIDE && entity instanceof Mob) {
@@ -72,6 +72,26 @@ public class VehicleLogger implements Listener {
             return true;
         }
 
+        return false;
+    }
+
+    private boolean shouldLogClick(Entity entity) {
+        if (!ConfigHandler.LOG_ENTITY_CONTAINER_CLICK) {
+            return false;
+        }
+
+        if (entity instanceof StorageMinecart) {
+            return true;
+        }
+        if (entity instanceof HopperMinecart) {
+            return true;
+        }
+        if (entity instanceof ChestBoat) {
+            return true;
+        }
+        if (entity instanceof ChestedHorse ch && ch.isCarryingChest()) {
+            return true;
+        }
         return false;
     }
 
@@ -97,17 +117,11 @@ public class VehicleLogger implements Listener {
         Entity attacker = e.getAttacker();
         Material item = entity.getPickItemStack().getType();
 
-        if (attacker instanceof Player player) {
-            api.logRemoval(player.getName(), entity.getLocation(), item, null);
+        if (api.logRemoval(attacker, entity.getLocation(), item)) {
             return;
         }
 
-        if (attacker != null) {
-            api.logRemoval("#" + attacker.getName().toLowerCase().replace(" ", "_"), entity.getLocation(), item, null);
-            return;
-        }
-
-        api.logRemoval("#" + entity.getName().toLowerCase().replace(" ", "_"), entity.getLocation(), item, null);
+        api.logRemoval(entity, entity.getLocation(), item);
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -125,7 +139,11 @@ public class VehicleLogger implements Listener {
         }
 
         Material type = mount.getPickItemStack().getType();
-        api.logPlacement(rider.getName(), mount.getLocation(), type, null);
+        if (!(mount instanceof Mob) && ConfigHandler.LOG_RIDE_AS_CLICK) {
+            api.logInteraction(rider, mount.getLocation(), type);
+        } else {
+            api.logPlacement(rider, mount.getLocation(), type);
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -143,6 +161,20 @@ public class VehicleLogger implements Listener {
         }
 
         Material type = mount.getPickItemStack().getType();
-        api.logRemoval(rider.getName(), mount.getLocation(), type, null);
+        if (!(mount instanceof Mob) && ConfigHandler.LOG_RIDE_AS_CLICK) {
+            api.logInteraction(rider, mount.getLocation(), type);
+        } else {
+            api.logRemoval(rider, mount.getLocation(), type);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onGuiOpen(InventoryOpenEvent e) {
+        InventoryHolder holder = e.getInventory().getHolder();
+
+        if (holder instanceof Entity entity && shouldLogClick(entity)) {
+            Material material = entity.getPickItemStack().getType();
+            api.logInteraction(e.getPlayer(), entity.getLocation(), material);
+        }
     }
 }

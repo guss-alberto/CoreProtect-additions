@@ -31,6 +31,8 @@ public class ConfigHandler {
     public static boolean LOG_BOAT_RIDE;
     public static boolean LOG_MINECART_RIDE;
     public static boolean LOG_NON_PLAYER_RIDE;
+    public static boolean LOG_ENTITY_CONTAINER_CLICK;
+    public static boolean LOG_RIDE_AS_CLICK;
 
 
     static FileConfiguration config;
@@ -92,6 +94,16 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-non-player-ride", false, "# Whether to also log entities entering vehicles, not just players"));
         LOG_NON_PLAYER_RIDE = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-entity-container-click", true, "# Whether to log players opening an entity container (Chest boat, chest minecart, donkey etc.)"));
+        LOG_ENTITY_CONTAINER_CLICK = configEntries.getLast().getValue();
+
+
+        configEntries.add(new ConfigEntry("log-ride-dismount-as-click", false, "# Whether to log riding and dismounting as a click action, instead of place and break. Only applies to non-mob rides (minecarts and boats)\n"+
+                                                                                                 "# Intended to make it easier to distinguish riding from placing. Might be confusing with log-entity-container-click"
+        ));
+        LOG_RIDE_AS_CLICK = configEntries.getLast().getValue();
+
 
         saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);
     }
