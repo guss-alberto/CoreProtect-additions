@@ -87,8 +87,8 @@ public class VehicleLogger implements Listener {
         if (entity instanceof ChestBoat) {
             return true;
         }
-        if (entity instanceof ChestedHorse ch && ch.isCarryingChest()) {
-            return true;
+        if (entity instanceof ChestedHorse ch) {
+            return ch.isCarryingChest();
         }
         return false;
     }
