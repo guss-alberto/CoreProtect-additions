@@ -36,6 +36,7 @@ public class ConfigHandler {
     public static boolean LOG_NON_PLAYER_RIDE;
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean LOG_RIDE_AS_CLICK;
+    public static boolean EXPERIMENTAL_ENTITY_CONTAINER_LOGGER;
 
     static FileConfiguration config;
 
@@ -113,8 +114,8 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-entity-container-click", true, "# Whether to log players opening an entity container (Chest boat, chest minecart, donkey etc.)"));
         LOG_ENTITY_CONTAINER_CLICK = configEntries.getLast().getValue();
 
-
-
+        configEntries.add(new ConfigEntry("experimental-entity-container-logger", true, "\n# WARNING: THIS FEATURE IS EXPERIMENTAL; USE AT YOUR OWN RISK."));
+        EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = configEntries.getLast().getValue();
 
 
         saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);
