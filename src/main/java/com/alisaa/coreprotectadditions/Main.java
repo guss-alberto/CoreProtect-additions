@@ -19,9 +19,10 @@ public class Main extends JavaPlugin {
             pluginManager.disablePlugin(this);
             return;
         }
+        ConfigHandler.initConfig(this);
+        
         api = new ApiWrapper();        
 
-        ConfigHandler.initConfig(this);
 
         if (ConfigHandler.LOG_LEASHES){
             pluginManager.registerEvents(new LeashLogger(api), this);
