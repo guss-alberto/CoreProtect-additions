@@ -56,8 +56,11 @@ public class VehicleLogger implements Listener {
     }
 
     private boolean shouldLogRiding(Entity entity) {
-        if (ConfigHandler.LOG_MOB_RIDE && entity instanceof Mob) {
-            return true;
+        if (entity instanceof Mob) {
+            if (entity instanceof ChestedHorse ch){
+                return ConfigHandler.LOG_CHESTED_HORSE_RIDE && ch.isCarryingChest();
+            }
+            return ConfigHandler.LOG_MOB_RIDE;
         }
         if (ConfigHandler.LOG_MINECART_RIDE && entity instanceof Minecart) {
             return true;

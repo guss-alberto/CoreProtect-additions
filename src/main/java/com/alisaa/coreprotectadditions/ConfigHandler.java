@@ -29,6 +29,7 @@ public class ConfigHandler {
     public static boolean LOG_BOAT;
     public static boolean LOG_CHEST_BOAT;
     public static boolean LOG_MOB_RIDE;
+    public static boolean LOG_CHESTED_HORSE_RIDE;
     public static boolean LOG_CHEST_BOAT_RIDE;
     public static boolean LOG_BOAT_RIDE;
     public static boolean LOG_MINECART_RIDE;
@@ -84,6 +85,9 @@ public class ConfigHandler {
         
         configEntries.add(new ConfigEntry("log-mob-ride", true, "\n# Log riding/dismounting for rideable entities\n"));
         LOG_MOB_RIDE = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-chested-mob-ride", true, "# Specific check for mobs with an inventory (donkey, llama, etc.)\n"));
+        LOG_CHESTED_HORSE_RIDE = configEntries.getLast().getValue();
         
         configEntries.add(new ConfigEntry("log-minecart-ride", true, null));
         LOG_MINECART_RIDE = configEntries.getLast().getValue();
