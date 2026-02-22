@@ -36,6 +36,7 @@ public class ConfigHandler {
     public static boolean LOG_NON_PLAYER_RIDE;
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean LOG_RIDE_AS_CLICK;
+    public static boolean EXPERIMENTAL_ENTITY_CONTAINER_LOGGER;
     public static boolean LOG_WIND_CHARGE_THROW;
     public static boolean LOG_WIND_CHARGE_CLICK;
 
@@ -121,8 +122,17 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-entity-container-click", true, "# Whether to log players opening an entity container (Chest boat, chest minecart, donkey etc.)"));
         LOG_ENTITY_CONTAINER_CLICK = configEntries.getLast().getValue();
 
+        configEntries.add(new ConfigEntry("experimental-entity-container-logger", false, """
 
-
+        # WARNING: THIS FEATURE IS EXPERIMENTAL; USE AT YOUR OWN RISK.
+        # There is probably a reason CoreProtect doesn't do this, and we might find out why.
+        # There are no official APIs for this, this is a hack and might not work on your server.
+        # However this does seem to work on my testing server.
+        # Note: this does NOT include hopers inserting or removing items from the container. Nor does it log breaking the container as removing all the contents.
+        # Enabling this will log item interactions with donkeys, mules, chest boats, hopper minecarts, chest minecarts and more as action:container.
+        """
+        ));
+        EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = configEntries.getLast().getValue();
 
 
         saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);

@@ -19,13 +19,19 @@ public class Main extends JavaPlugin {
             pluginManager.disablePlugin(this);
             return;
         }
+        ConfigHandler.initConfig(this);
+        
         api = new ApiWrapper();        
 
-        ConfigHandler.initConfig(this);
 
         if (ConfigHandler.LOG_LEASHES){
             pluginManager.registerEvents(new LeashLogger(api), this);
         }
+        if (ConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER){
+            getLogger().warning("You are using the experimental entity container logger");
+            pluginManager.registerEvents(new EntityInventoryLogger(api), this);
+        }
+        
         pluginManager.registerEvents(new WindChargeLogger(api), this);
         pluginManager.registerEvents(new MiscLogger(api), this);
         pluginManager.registerEvents(new CreeperLogger(api), this);
