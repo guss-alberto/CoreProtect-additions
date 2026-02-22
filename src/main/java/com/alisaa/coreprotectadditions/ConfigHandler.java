@@ -36,6 +36,8 @@ public class ConfigHandler {
     public static boolean LOG_NON_PLAYER_RIDE;
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean LOG_RIDE_AS_CLICK;
+    public static boolean LOG_WIND_CHARGE_THROW;
+    public static boolean LOG_WIND_CHARGE_CLICK;
 
     static FileConfiguration config;
 
@@ -61,6 +63,12 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-raids", true, null));
         LOG_RAIDS = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-wind-charge-throw", true, "# Whether to log throwing wind charges as item actions like throwing ender pearls"));
+        LOG_WIND_CHARGE_THROW = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-wind-charge-interact", true, "# Whether to log throwing wind charges toggling doors, lever and buttons as click actions by the player who threw them"));
+        LOG_WIND_CHARGE_CLICK = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-redstone-tnt-ignite", true, "# Useful for farms where TNT duping is enabled\n" + //
                                                                                              "# Finding TNT ignited by redstone torches or levers might"));

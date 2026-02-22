@@ -26,6 +26,7 @@ public class Main extends JavaPlugin {
         if (ConfigHandler.LOG_LEASHES){
             pluginManager.registerEvents(new LeashLogger(api), this);
         }
+        pluginManager.registerEvents(new WindChargeLogger(api), this);
         pluginManager.registerEvents(new MiscLogger(api), this);
         pluginManager.registerEvents(new CreeperLogger(api), this);
         pluginManager.registerEvents(new BedLogger(api), this);
