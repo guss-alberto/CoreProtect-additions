@@ -68,7 +68,7 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-wind-charge-throw", true, "# Whether to log throwing wind charges as item actions like throwing ender pearls"));
         LOG_WIND_CHARGE_THROW = configEntries.getLast().getValue();
 
-        configEntries.add(new ConfigEntry("log-wind-charge-interact", true, "# Whether to log throwing wind charges toggling doors, lever and buttons as click actions by the player who threw them"));
+        configEntries.add(new ConfigEntry("log-wind-charge-interact", true, "# Whether to log throwing wind charges toggling doors, lever and buttons as click actions by the player or entity who threw them"));
         LOG_WIND_CHARGE_CLICK = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-redstone-tnt-ignite", true, "# Useful for farms where TNT duping is enabled\n" + //
@@ -129,8 +129,7 @@ public class ConfigHandler {
         # There are no official APIs for this, this is a hack and might not work on your server.
         # However this does seem to work on my testing server.
         # Note: this does NOT include hopers inserting or removing items from the container. Nor does it log breaking the container as removing all the contents.
-        # Enabling this will log item interactions with donkeys, mules, chest boats, hopper minecarts, chest minecarts and more as action:container.
-        """
+        # Enabling this will log item interactions with donkeys, mules, chest boats, hopper minecarts, chest minecarts and more as action:container."""
         ));
         EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = configEntries.getLast().getValue();
 

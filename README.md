@@ -1,5 +1,7 @@
 # CoreProtect-additions
 
+![Visual representation of some of the things CoreProtect-additions logs](https://cdn.modrinth.com/data/OSx6M73S/images/a7104ef3283f384467ed3c4d6225f0bee8c85c5c.png)
+
 CoreProtect-additions is an addon for [CoreProtect](https://modrinth.com/plugin/coreprotect) that adds logging for extra features that are currently unsupported by CoreProtect.
 
 Logging has been added for
@@ -14,6 +16,8 @@ Logging has been added for
 - Setting spawn on a Bed or Respawn Anchor
 - Exploding a Bed or Respawn Anchor
 - Opening entity container GUIs.
+- Wind charge throwing and item activation
+- EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts )
 
 # Logging details
 
@@ -44,10 +48,21 @@ The `a:click` action is used for everything else:
 - `a:click i:<spawn_egg>`: clicking on a chested mob (Llama, donkey, etc..).
 - `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..), or mounting/dismounting it (boat, minecart).
 
+-- 
+
+Wind Charges are logged as `a:item` which actually shows up in lookups as "**user** thew **wind_charge**" as for other projectiles.
+
+Buttons, doors, levers and more triggered by the wind charge are logged as if they were clicked by the player or breeze that fired them.
+
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
 
 Note: user comments in the config will be deleted next plugin reload.
+
+# Entity Container Logging
+This plugin also has an experimental option to finally allow CoreProtect to log transactions with entity inventories (such as donkeys, mules, chest boats, hopper minecarts, chest minecarts etc...).
+This is a bit of a hack, as there is no official API for this, and is disabled by default in the config. It worked in my limited testing but might have other issues i didn't account for. 
+Use with caution, the feature should disable itself until the next restart in case an error occurs. 
 
 ## Notes and limitations:
 Breaking a fence to which a mob is leashed will be logged as `a:-block i:lead` by `#physics` at the location of the fence post. A manual lookup is needed to verify who broke the fence.
