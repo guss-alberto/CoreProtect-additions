@@ -74,18 +74,6 @@ public class ApiWrapper extends CoreProtectAPI {
         return logRemoval(user, location, material, null);
     }
 
-    public boolean containerBreak(String user, Location location, Material type, ItemStack[] oldInventory) {
-        if (this.isEnabled() && this.isValidUserAndLocation(user, location) && oldInventory != null) {
-            Queue.queueContainerBreak(user, location, type, oldInventory);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean containerBreak(Entity entity, Location location, Material type, ItemStack[] oldInventory) {
-        return containerBreak(formatUser(entity), location, type, oldInventory);
-    }
-
     public String getTransactingChestId(Location location) {
         return location.getWorld().getUID().toString() + "." + location.getBlockX() + "." + location.getBlockY() + "."
                 + location.getBlockZ();

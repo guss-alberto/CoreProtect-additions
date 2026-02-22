@@ -39,7 +39,7 @@ public class EntityInventoryLogger implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInventoryDragEvent(InventoryDragEvent event) {
         InventoryHolder inventoryHolder = event.getInventory().getHolder();
-        if (inventoryHolder instanceof Entity entity) {
+        if (inventoryHolder instanceof Entity entity && !(entity instanceof HumanEntity)) {
             Player player = (Player) event.getWhoClicked();
             api.inventoryTransaction(player.getName().toLowerCase(), inventoryHolder, entity.getLocation());
         }
