@@ -20,8 +20,11 @@ public class Main extends JavaPlugin {
             return;
         }
         ConfigHandler.initConfig(this);
-        
         api = new ApiWrapper();        
+
+        if (ConfigHandler.CHECK_FOR_UPDATES){
+            Updater.checkForUpdates(this);
+        }
 
 
         if (ConfigHandler.LOG_LEASHES){

@@ -17,6 +17,8 @@ public class ConfigHandler {
             # Note: user comments in this file DO NOT persist.
 
             """;
+
+    public static boolean CHECK_FOR_UPDATES;
     public static boolean LOG_SPAWN_SET;
     public static boolean LOG_ENTITY_DYE;
     public static boolean LOG_ENTITY_RENAME;
@@ -48,6 +50,10 @@ public class ConfigHandler {
     static void initConfig(Plugin plugin){
         config = plugin.getConfig();
         final List<ConfigEntry> configEntries = new ArrayList<>();
+
+        configEntries.add(new ConfigEntry("check-for-updates", true, "# Automatically check for new versions on server startup"));
+        CHECK_FOR_UPDATES = configEntries.getLast().getValue();
+
 
         configEntries.add(new ConfigEntry("log-spawn-set", true, "# Wether to log setting spawn on a bed or respawn anchor\n" + //
                                                                                    "# Respawn block explosions will always be logged"));
