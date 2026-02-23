@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
@@ -76,7 +77,7 @@ public class WindChargeLogger implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onWindChargeLaunch(EntitySpawnEvent e) {
+    public void onWindChargeLaunch(ProjectileLaunchEvent e) {
         if (!ConfigHandler.LOG_WIND_CHARGE_THROW){
             return;
         }
