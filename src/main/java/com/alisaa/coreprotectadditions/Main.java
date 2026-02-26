@@ -30,6 +30,9 @@ public class Main extends JavaPlugin {
         if (ConfigHandler.LOG_LEASHES){
             pluginManager.registerEvents(new LeashLogger(api), this);
         }
+        if (ConfigHandler.LOG_SPONGE){
+            pluginManager.registerEvents(new SpongeLogger(api), this);
+        }
         if (ConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER){
             getLogger().warning("You are using the experimental entity container logger");
             pluginManager.registerEvents(new EntityInventoryLogger(api), this);

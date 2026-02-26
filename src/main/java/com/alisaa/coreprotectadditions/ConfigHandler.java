@@ -41,6 +41,7 @@ public class ConfigHandler {
     public static boolean EXPERIMENTAL_ENTITY_CONTAINER_LOGGER;
     public static boolean LOG_WIND_CHARGE_THROW;
     public static boolean LOG_WIND_CHARGE_CLICK;
+    public static boolean LOG_SPONGE;
 
     static FileConfiguration config;
 
@@ -64,6 +65,9 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-entity-rename", true, null));
         LOG_ENTITY_RENAME = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-sponge-absorbe", false, "# Logs sponge removing water as user '#sponge' reagrdless of who placed it"));
+        LOG_SPONGE = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-leashes", true, null));
         LOG_LEASHES = configEntries.getLast().getValue();
