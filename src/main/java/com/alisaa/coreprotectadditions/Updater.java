@@ -15,6 +15,9 @@ public class Updater {
     static final String GITHUB_URL = "https://api.github.com/repos/guss-alberto/CoreProtect-additions/releases";
     static final String MODRINTH_URL = "https://modrinth.com/project/OSx6M73S/versions";
 
+    private Updater (){
+    }
+
     public static boolean checkForUpdates(JavaPlugin plugin) {
         String latestVersionTag;
         try (HttpClient client = HttpClient.newHttpClient()) {

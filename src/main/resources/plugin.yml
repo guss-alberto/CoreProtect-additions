@@ -3,6 +3,7 @@ main: com.alisaa.coreprotectadditions.Main
 version: ${version}
 api-version: 1.21.11
 author: itsAlisaa
+website: https://modrinth.com/plugin/coreprotect-additions
 folia-supported: true
 description: Provides logs for extra things, that CoreProtect hasn't implemented yet...
 depend:
