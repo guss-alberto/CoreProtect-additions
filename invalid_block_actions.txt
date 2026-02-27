@@ -60,3 +60,6 @@ blue_dye
 purple_dye
 magenta_dye
 pink_dye
+
+creeper_spawn_egg
+fire_charge
