@@ -48,7 +48,7 @@ public class SpongeLogger implements Listener {
                 api.logRemoval("#sponge", location, Material.WATER, null);
             } else {
                 // log kelp and seagreass as beging broken correctly
-                api.logRemoval("#sponge", location, type, null);
+                api.logRemoval("#sponge", location.getBlock().getState());
             }
         }
     }
