@@ -38,7 +38,7 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 -  `a:block i:<spawn_egg>`: mounting or dismounting a Mob, spawn egg reprsents the mob ridden.
 -  `a:block i:lead`: placing or breaking a Leash. This includes riding away with a leashed mob. At the coordinates of the leash knot or the entity that was unleashed depending on the situation.
 
----
+----
 
 The `a:click` action is used for everything else:
 - `a:click i:tnt`: igniting TNT
@@ -48,11 +48,15 @@ The `a:click` action is used for everything else:
 - `a:click i:<spawn_egg>`: clicking on a chested mob (Llama, donkey, etc..).
 - `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..), or mounting/dismounting it (boat, minecart).
 
--- 
+----
 
 Wind Charges are logged as `a:item` which actually shows up in lookups as "**user** thew **wind_charge**" as for other projectiles.
 
 Buttons, doors, levers and more triggered by the wind charge are logged as if they were clicked by the player or breeze that fired them.
+
+----
+
+Sponges are simply logged as user "**#sponge**" breaking the blocks that were sucked up (water, kelp or seagress). 
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
@@ -63,6 +67,12 @@ Note: user comments in the config will be deleted next plugin reload.
 This plugin also has an experimental option to finally allow CoreProtect to log transactions with entity inventories (such as donkeys, mules, chest boats, hopper minecarts, chest minecarts etc...).
 This is a bit of a hack, as there is no official API for this, and is disabled by default in the config. It worked in my limited testing but might have other issues i didn't account for. 
 Use with caution, the feature should disable itself until the next restart in case an error occurs. 
+
+# KNOWN ISSUE: WARNING
+Due to an issue in CoreProtect, rollback previews (`#preview`) can fail unexpectedly.
+To avoid this, you will have to exclude all items that may be causing the issue. You can find a complete list of items that may be causing the issue on [GitHub](https://github.com/guss-alberto/CoreProtect-additions/blob/main/invalid_block_actions.txt).
+
+NOTE: Regular rollbacks without the `#preview` option will work just fine.
 
 ## Notes and limitations:
 Breaking a fence to which a mob is leashed will be logged as `a:-block i:lead` by `#physics` at the location of the fence post. A manual lookup is needed to verify who broke the fence.

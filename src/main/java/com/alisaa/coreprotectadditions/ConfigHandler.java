@@ -66,7 +66,7 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-entity-rename", true, null));
         LOG_ENTITY_RENAME = configEntries.getLast().getValue();
 
-        configEntries.add(new ConfigEntry("log-sponge-absorbe", false, "# Logs sponge removing water as user '#sponge' reagrdless of who placed it"));
+        configEntries.add(new ConfigEntry("log-sponge-absorbe", true, "# Logs sponge removing water as user '#sponge' reagrdless of who placed it"));
         LOG_SPONGE = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-leashes", true, null));
