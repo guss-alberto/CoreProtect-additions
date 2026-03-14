@@ -42,6 +42,7 @@ public class ConfigHandler {
     public static boolean LOG_WIND_CHARGE_THROW;
     public static boolean LOG_WIND_CHARGE_CLICK;
     public static boolean LOG_SPONGE;
+    public static boolean LOG_ZOMBIE_DOOR_BREAK;
 
     static FileConfiguration config;
 
@@ -65,6 +66,9 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-entity-rename", true, null));
         LOG_ENTITY_RENAME = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-zombie-break-door", true, null));
+        LOG_ZOMBIE_DOOR_BREAK = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-sponge-absorbe", true, "# Logs sponge removing water as user '#sponge' reagrdless of who placed it"));
         LOG_SPONGE = configEntries.getLast().getValue();
