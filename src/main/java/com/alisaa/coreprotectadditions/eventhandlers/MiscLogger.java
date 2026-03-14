@@ -48,7 +48,7 @@ public class MiscLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFlowerPotManipulate(PlayerFlowerPotManipulateEvent e) {
-        if (ConfigHandler.LOG_FLOWER_POT){
+        if (!ConfigHandler.LOG_FLOWER_POT){
             return;
         }
         api.logRemoval(e.getPlayer().getName(), e.getFlowerpot().getState());

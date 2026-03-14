@@ -68,6 +68,7 @@ Zombies breaking doors are logged as user "**#zombie**" (husk, zomvie_villager o
 
 Weaving is logged as user "**#weaving**" placing cobwebs.
 
+Potted plants are logged as the player breaking the pot and placing a new potted_plant, making it rollbackable too.
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
