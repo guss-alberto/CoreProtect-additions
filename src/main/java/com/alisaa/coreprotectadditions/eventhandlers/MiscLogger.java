@@ -1,16 +1,21 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityBreakDoorEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
+import org.bukkit.potion.PotionEffectType;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
 
 import io.papermc.paper.event.entity.EntityDyeEvent;
+import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
+import io.papermc.paper.event.player.PlayerInsertLecternBookEvent;
 import io.papermc.paper.event.player.PlayerNameEntityEvent;
 
 public class MiscLogger implements Listener {
@@ -38,6 +43,35 @@ public class MiscLogger implements Listener {
     public void onZombieBreakDoor(EntityBreakDoorEvent e) {
         if (ConfigHandler.LOG_ZOMBIE_DOOR_BREAK) {
             api.logRemoval(e.getEntity(), e.getBlock().getLocation(), e.getBlock().getType());
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onFlowerPotManipulate(PlayerFlowerPotManipulateEvent e) {
+        if (ConfigHandler.LOG_FLOWER_POT){
+            return;
+        }
+        api.logRemoval(e.getPlayer().getName(), e.getFlowerpot().getState());
+        if (e.isPlacing()) {
+            Material newPot = Material.getMaterial("POTTED_" + e.getItem().getType().name());
+            api.logPlacement(e.getPlayer(), e.getFlowerpot().getLocation(), newPot);
+        } else {
+            api.logPlacement(e.getPlayer(), e.getFlowerpot().getLocation(), Material.FLOWER_POT);
+        }
+    }
+
+    // let's hope this one gets fixed on CoreProtect.
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerAddBook(PlayerInsertLecternBookEvent e) {
+        api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onWeavingCobweb(EntityChangeBlockEvent e) {
+        if (ConfigHandler.LOG_WEAVING && e.getTo() == Material.COBWEB &&
+                e.getEntity() instanceof LivingEntity le &&
+                le.getPotionEffect(PotionEffectType.WEAVING) != null) {
+            api.logPlacement("#weaving", e.getBlock().getLocation(), Material.COBWEB, null);
         }
     }
 

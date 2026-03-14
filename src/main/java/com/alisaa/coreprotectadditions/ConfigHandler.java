@@ -43,7 +43,9 @@ public class ConfigHandler {
     public static boolean LOG_WIND_CHARGE_CLICK;
     public static boolean LOG_SPONGE;
     public static boolean LOG_ZOMBIE_DOOR_BREAK;
-
+    public static boolean LOG_FLOWER_POT;
+    public static boolean LOG_WEAVING;
+    
     static FileConfiguration config;
 
     private ConfigHandler() {
@@ -70,6 +72,9 @@ public class ConfigHandler {
         configEntries.add(new ConfigEntry("log-zombie-break-door", true, null));
         LOG_ZOMBIE_DOOR_BREAK = configEntries.getLast().getValue();
 
+        configEntries.add(new ConfigEntry("log-flower-pot", true, null));
+        LOG_FLOWER_POT = configEntries.getLast().getValue();
+
         configEntries.add(new ConfigEntry("log-sponge-absorbe", true, "# Logs sponge removing water as user '#sponge' reagrdless of who placed it"));
         LOG_SPONGE = configEntries.getLast().getValue();
 
@@ -78,6 +83,9 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-raids", true, null));
         LOG_RAIDS = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-weaving-cobwebs", true, "# Whether to log cobwebs placed by the weaving potion effect"));
+        LOG_WEAVING = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-wind-charge-throw", true, "# Whether to log throwing wind charges as item actions like throwing ender pearls"));
         LOG_WIND_CHARGE_THROW = configEntries.getLast().getValue();
