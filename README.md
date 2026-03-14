@@ -16,7 +16,13 @@ Logging has been added for
 - Setting spawn on a Bed or Respawn Anchor
 - Exploding a Bed or Respawn Anchor
 - Opening entity container GUIs.
-- Wind charge throwing and item activation
+- Wind charge throwing
+- Wind charge triggering blocks
+- Sponges absorbing water
+- Zombies breaking doors
+- Inserting books into lecterns
+- Adding and removing items to flower pots
+- Weaving potion effect placing cobwebs
 - EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts )
 
 # Logging details
@@ -57,6 +63,11 @@ Buttons, doors, levers and more triggered by the wind charge are logged as if th
 ----
 
 Sponges are simply logged as user "**#sponge**" breaking the blocks that were sucked up (water, kelp or seagress). 
+
+Zombies breaking doors are logged as user "**#zombie**" (husk, zomvie_villager or whatever) breaking the door block.
+
+Weaving is logged as user "**#weaving**" placing cobwebs.
+
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
