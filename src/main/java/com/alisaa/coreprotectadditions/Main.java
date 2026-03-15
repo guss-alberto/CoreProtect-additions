@@ -40,6 +40,7 @@ public class Main extends JavaPlugin {
         
         pluginManager.registerEvents(new WindChargeLogger(api), this);
         pluginManager.registerEvents(new MiscLogger(api), this);
+        pluginManager.registerEvents(new EntityChangeBlockLogger(api), this);
         pluginManager.registerEvents(new CreeperLogger(api), this);
         pluginManager.registerEvents(new BedLogger(api), this);
         pluginManager.registerEvents(new TntLogger(api), this);

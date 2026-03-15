@@ -1,14 +1,10 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
 import org.bukkit.Material;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityBreakDoorEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
-import org.bukkit.potion.PotionEffectType;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
@@ -40,13 +36,6 @@ public class MiscLogger implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onZombieBreakDoor(EntityBreakDoorEvent e) {
-        if (ConfigHandler.LOG_ZOMBIE_DOOR_BREAK) {
-            api.logRemoval(e.getEntity(), e.getBlock().getLocation(), e.getBlock().getType());
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
     public void onFlowerPotManipulate(PlayerFlowerPotManipulateEvent e) {
         if (!ConfigHandler.LOG_FLOWER_POT){
             return;
@@ -64,15 +53,6 @@ public class MiscLogger implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerAddBook(PlayerInsertLecternBookEvent e) {
         api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onWeavingCobweb(EntityChangeBlockEvent e) {
-        if (ConfigHandler.LOG_WEAVING && e.getTo() == Material.COBWEB &&
-                e.getEntity() instanceof LivingEntity le &&
-                le.getPotionEffect(PotionEffectType.WEAVING) != null) {
-            api.logPlacement("#weaving", e.getBlock().getLocation(), Material.COBWEB, null);
-        }
     }
 
     @EventHandler(ignoreCancelled = true)

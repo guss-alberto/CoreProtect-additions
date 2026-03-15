@@ -44,7 +44,9 @@ public class ConfigHandler {
     public static boolean LOG_SPONGE;
     public static boolean LOG_ZOMBIE_DOOR_BREAK;
     public static boolean LOG_FLOWER_POT;
+    public static boolean LOG_SILVERFISH_INFESTATION;
     public static boolean LOG_WEAVING;
+    public static boolean LOG_FROST_WALKER;
     
     static FileConfiguration config;
 
@@ -68,6 +70,12 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-entity-rename", true, null));
         LOG_ENTITY_RENAME = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-frost-walker", true, null));
+        LOG_FROST_WALKER = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-silverfish-infestation", true, "# Silverfish breaking blocks by exiting are already logged by coreprotect"));
+        LOG_SILVERFISH_INFESTATION = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("log-zombie-break-door", true, null));
         LOG_ZOMBIE_DOOR_BREAK = configEntries.getLast().getValue();
