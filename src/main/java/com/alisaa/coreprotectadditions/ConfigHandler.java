@@ -164,7 +164,13 @@ public class ConfigHandler {
         EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = configEntries.getLast().getValue();
 
 
-        saveConfigFile(new File(plugin.getDataFolder(), "config.yml"), configEntries);
+        File dataFolder = plugin.getDataFolder();
+        if (!dataFolder.exists()){
+            Bukkit.getLogger().info("Creating CoreProtect-additions config folder...");
+            dataFolder.mkdirs();
+        }
+
+        saveConfigFile(new File(dataFolder, "config.yml"), configEntries);
     }
 
     private static void saveConfigFile(File file, List<ConfigEntry> configEntries) {
