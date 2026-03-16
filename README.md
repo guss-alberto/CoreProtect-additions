@@ -23,6 +23,8 @@ Logging has been added for
 - Inserting books into lecterns
 - Adding and removing items to flower pots
 - Weaving potion effect placing cobwebs
+- Silverfish infesting blocks
+- Frost walker
 - EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts )
 
 # Logging details
