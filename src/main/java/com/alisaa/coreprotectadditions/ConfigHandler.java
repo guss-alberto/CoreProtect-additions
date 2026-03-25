@@ -47,6 +47,7 @@ public class ConfigHandler {
     public static boolean LOG_SILVERFISH_INFESTATION;
     public static boolean LOG_WEAVING;
     public static boolean LOG_FROST_WALKER;
+    public static boolean LOG_CREEPER_EXPLOSION;
     
     static FileConfiguration config;
 
@@ -151,6 +152,9 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-entity-container-click", true, "# Whether to log players opening an entity container (Chest boat, chest minecart, donkey etc.)"));
         LOG_ENTITY_CONTAINER_CLICK = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-creeper-explosions", true, "# Whether to log creeper explosions triggered by a player"));
+        LOG_CREEPER_EXPLOSION = configEntries.getLast().getValue();
 
         configEntries.add(new ConfigEntry("experimental-entity-container-logger", false, """
 

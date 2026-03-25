@@ -1,5 +1,6 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
+import com.alisaa.coreprotectadditions.ConfigHandler;
 import org.bukkit.Material;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -24,7 +25,7 @@ public class CreeperLogger implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent e) {
         Entity entity = e.getEntity();
-        if (entity instanceof Creeper creeper) {
+        if (entity instanceof Creeper creeper && ConfigHandler.LOG_CREEPER_EXPLOSION) {
             Entity igniter = creeper.getIgniter();
             if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
                 return;
@@ -32,6 +33,7 @@ public class CreeperLogger implements Listener {
 
             LivingEntity target = creeper.getTarget();
             api.logRemoval(target, creeper.getLocation(), Material.CREEPER_SPAWN_EGG);
+
         }
     }
 
