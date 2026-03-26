@@ -13,6 +13,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.projectiles.ProjectileSource;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
+import com.alisaa.coreprotectadditions.ConfigHandler;
 
 public class CreeperLogger implements Listener {
     private ApiWrapper api;
@@ -24,7 +25,7 @@ public class CreeperLogger implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent e) {
         Entity entity = e.getEntity();
-        if (entity instanceof Creeper creeper) {
+        if (entity instanceof Creeper creeper && ConfigHandler.LOG_CREEPER) {
             Entity igniter = creeper.getIgniter();
             if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
                 return;
@@ -37,7 +38,7 @@ public class CreeperLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFireballHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof SizedFireball fireball) {
+        if (e.getEntity() instanceof SizedFireball fireball && ConfigHandler.LOG_FIREBALL) {
             ProjectileSource shooter = fireball.getShooter();
             if (shooter instanceof Mob mob) {
                 LivingEntity target = mob.getTarget();

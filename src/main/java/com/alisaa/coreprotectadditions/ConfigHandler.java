@@ -47,6 +47,8 @@ public class ConfigHandler {
     public static boolean LOG_SILVERFISH_INFESTATION;
     public static boolean LOG_WEAVING;
     public static boolean LOG_FROST_WALKER;
+    public static boolean LOG_CREEPER;
+    public static boolean LOG_FIREBALL;
     
     static FileConfiguration config;
 
@@ -91,6 +93,13 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-raids", true, null));
         LOG_RAIDS = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-creeper-explode", true, null));
+        LOG_CREEPER = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-fireball", true, null));
+        LOG_FIREBALL = configEntries.getLast().getValue();
+
 
         configEntries.add(new ConfigEntry("log-weaving-cobwebs", true, "# Whether to log cobwebs placed by the weaving potion effect"));
         LOG_WEAVING = configEntries.getLast().getValue();
