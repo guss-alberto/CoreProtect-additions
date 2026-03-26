@@ -1,7 +1,7 @@
 name: CoreProtect-additions
 main: com.alisaa.coreprotectadditions.Main
 version: ${version}
-api-version: 1.21.11
+api-version: 1.21.10
 author: itsAlisaa
 website: https://modrinth.com/plugin/coreprotect-additions
 folia-supported: true
