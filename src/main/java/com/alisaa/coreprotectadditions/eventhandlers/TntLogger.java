@@ -49,9 +49,10 @@ public class TntLogger implements Listener {
                 if (entity instanceof Projectile projectile && 
                     projectile.getShooter() instanceof Entity shooter){
                         api.logInteraction(shooter, location);
+                } else {
+                    // fallback, in case no shooter exists, simply log the projectile
+                    api.logInteraction(entity, location);
                 }
-                // fallback, in case no shooter exists, simply log the projectile
-                api.logInteraction(entity, location);
                 break;
 
             case EXPLOSION:
@@ -69,10 +70,9 @@ public class TntLogger implements Listener {
                 // if tnt chain, log as tnt cause
                 if (entity instanceof TNTPrimed tnt) {
                     Entity igniterEntity = tnt.getSource();
-                    if (igniterEntity == null) {
-                        break;
+                    if (igniterEntity != null) {
+                        api.logInteraction(igniterEntity, location);
                     }
-                    api.logInteraction(igniterEntity, location);
                     break;
                 }
                 // find last damage if from ender crystal
@@ -81,10 +81,9 @@ public class TntLogger implements Listener {
                     Entity damager = damageEvent.getDamageSource().getCausingEntity();
                     if (damager == null) {
                         api.logInteraction("#end_crystal", location);
-                        break;
+                    } else {
+                        api.logInteraction(damager, location);
                     }
-                    api.logInteraction(damager, location);
-                    entity = damager;
                     break;
                 }
                 // Otherisw simply log the entity name

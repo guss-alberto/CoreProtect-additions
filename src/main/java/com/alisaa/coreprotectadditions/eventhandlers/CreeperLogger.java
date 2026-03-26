@@ -25,7 +25,7 @@ public class CreeperLogger implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent e) {
         Entity entity = e.getEntity();
-        if (entity instanceof Creeper creeper && ConfigHandler.LOG_CREEPER) {
+        if (ConfigHandler.LOG_CREEPER && entity instanceof Creeper creeper) {
             Entity igniter = creeper.getIgniter();
             if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
                 return;
@@ -38,7 +38,7 @@ public class CreeperLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFireballHit(ProjectileHitEvent e) {
-        if (e.getEntity() instanceof SizedFireball fireball && ConfigHandler.LOG_FIREBALL) {
+        if (ConfigHandler.LOG_FIREBALL && e.getEntity() instanceof SizedFireball fireball) {
             ProjectileSource shooter = fireball.getShooter();
             if (shooter instanceof Mob mob) {
                 LivingEntity target = mob.getTarget();
