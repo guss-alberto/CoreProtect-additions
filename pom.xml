@@ -6,7 +6,7 @@
 
     <groupId>com.alisaa</groupId>
     <artifactId>CoreProtect-additions</artifactId>
-    <version>0.7.1</version>
+    <version>0.7.2</version>
 
     <repositories>
         <repository>
