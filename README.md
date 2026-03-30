@@ -4,6 +4,8 @@
 
 CoreProtect-additions is an addon for [CoreProtect](https://modrinth.com/plugin/coreprotect) that adds logging for extra features that are currently unsupported by CoreProtect.
 
+## WARNING: THIS IS A BETA, HAS ONLY BEEN TESTED IN 1.21.11 PLEASE REPORT ANY ISSUES YOU FIND ON DISCORD OR GITHUB, I WILL TRY TO FIX THEM AS SOON AS POSSIBLE
+
 Logging has been added for
 - Renaming mobs with a name tag
 - Starting raids
@@ -23,6 +25,10 @@ Logging has been added for
 - Inserting books into lecterns
 - Adding and removing items to flower pots
 - Weaving potion effect placing cobwebs
+- Silverfish infesting blocks
+- Frost walker
+- Picking up and placing bucketable mobs (fish, axolotl etc.)
+- Villagers and pigs getting converted by lightning
 - EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts )
 
 # Logging details
@@ -42,7 +48,8 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 -  `a:block i:<vehicle>`: placing or breaking a Minecart or Boat of any kind (vehicle will refer to the particular vehicle e.g. `oak_chest_boat`)
 -  `a:block i:<spawn_egg>`: entering or exiting a Minecart of Boat (if enabled in config)
 -  `a:block i:<spawn_egg>`: mounting or dismounting a Mob, spawn egg reprsents the mob ridden.
--  `a:block i:lead`: placing or breaking a Leash. This includes riding away with a leashed mob. At the coordinates of the leash knot or the entity that was unleashed depending on the situation.
+-  `a:block i:lead`: placing or breaking a Leash. This includes riding away with a leashed mob. At the coordinates of the entity that was leashed. Also called when placing or removing a leash from a fence post, at the coordinates of the fence post.
+-  `a:block i:<mob_bucket>`: placing or picking up a bucketed mob
 
 ----
 
@@ -68,7 +75,9 @@ Zombies breaking doors are logged as user "**#zombie**" (husk, zomvie_villager o
 
 Weaving is logged as user "**#weaving**" placing cobwebs.
 
-Potted plants are logged as the player breaking the pot and placing a new potted_plant, making it rollbackable too.
+Potted plants are logged as the player breaking the pot and placing a new potted_plant, making it rollbackable.
+
+Lightning conversion is logged as user **#lightning** killing the mob, making it rollbackable.
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
@@ -90,5 +99,3 @@ NOTE: Regular rollbacks without the `#preview` option will work just fine.
 Breaking a fence to which a mob is leashed will be logged as `a:-block i:lead` by `#physics` at the location of the fence post. A manual lookup is needed to verify who broke the fence.
 
 TNT triggered by a Bed or Respawn Anchor explosion currently gets logged as `a:click i:tnt` by `#block` ideally it should be traced back to the player who clicked it.
-
-None of these actions are rollback-able. This is not supported by the current CoreProtect API.
