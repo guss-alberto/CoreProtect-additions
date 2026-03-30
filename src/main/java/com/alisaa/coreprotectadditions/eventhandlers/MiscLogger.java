@@ -1,6 +1,8 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
 import org.bukkit.Material;
+import org.bukkit.damage.DamageType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +10,7 @@ import org.bukkit.event.raid.RaidTriggerEvent;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.destroystokyo.paper.event.entity.EntityZapEvent;
 
 import io.papermc.paper.event.entity.EntityDyeEvent;
 import io.papermc.paper.event.player.PlayerFlowerPotManipulateEvent;
@@ -32,6 +35,13 @@ public class MiscLogger implements Listener {
     public void onRaidTrigger(RaidTriggerEvent e) {
         if (ConfigHandler.LOG_RAIDS) {
             api.logRemoval(e.getPlayer().getName(), e.getRaid().getLocation(), Material.OMINOUS_BOTTLE, null);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onLightningConversion(EntityZapEvent e) {
+        if (e.getEntity() instanceof LivingEntity entity){
+            api.logEntityKill(entity, e.getBolt(), DamageType.LIGHTNING_BOLT);
         }
     }
 
