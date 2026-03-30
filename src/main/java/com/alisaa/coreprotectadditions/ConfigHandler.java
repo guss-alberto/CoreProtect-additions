@@ -49,6 +49,8 @@ public class ConfigHandler {
     public static boolean LOG_FROST_WALKER;
     public static boolean LOG_CREEPER;
     public static boolean LOG_FIREBALL;
+    public static boolean LOG_FISH_BUCKETS;
+    
     
     static FileConfiguration config;
 
@@ -99,6 +101,9 @@ public class ConfigHandler {
 
         configEntries.add(new ConfigEntry("log-fireball", true, null));
         LOG_FIREBALL = configEntries.getLast().getValue();
+
+        configEntries.add(new ConfigEntry("log-fish-buckets", true, "# Whether to log picking up a and placing fish or axolotl in buckets as block actions"));
+        LOG_FISH_BUCKETS = configEntries.getLast().getValue();
 
 
         configEntries.add(new ConfigEntry("log-weaving-cobwebs", true, "# Whether to log cobwebs placed by the weaving potion effect"));
