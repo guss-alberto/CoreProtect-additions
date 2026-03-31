@@ -9,6 +9,11 @@ import com.alisaa.coreprotectadditions.eventhandlers.*;
 
 public class Main extends JavaPlugin {
     ApiWrapper api;
+    private static JavaPlugin instance;
+
+    public static JavaPlugin getInstance(){
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -21,6 +26,7 @@ public class Main extends JavaPlugin {
         }
         ConfigHandler.initConfig(this);
         api = new ApiWrapper();        
+        instance = this;
 
         if (ConfigHandler.CHECK_FOR_UPDATES){
             Updater.checkForUpdates(this);
@@ -44,7 +50,7 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new WindChargeLogger(api), this);
         pluginManager.registerEvents(new MiscLogger(api), this);
         pluginManager.registerEvents(new EntityChangeBlockLogger(api), this);
-        pluginManager.registerEvents(new CreeperLogger(api), this);
+        pluginManager.registerEvents(new MobExplosionLogger(api), this);
         pluginManager.registerEvents(new BedLogger(api), this);
         pluginManager.registerEvents(new TntLogger(api), this);
         pluginManager.registerEvents(new VehicleLogger(api), this);

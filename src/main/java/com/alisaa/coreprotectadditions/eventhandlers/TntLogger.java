@@ -79,10 +79,10 @@ public class TntLogger implements Listener {
                 if (entity instanceof EnderCrystal enderCrystal) {
                     EntityDamageEvent damageEvent = enderCrystal.getLastDamageCause();
                     Entity damager = damageEvent.getDamageSource().getCausingEntity();
-                    if (damager == null) {
-                        api.logInteraction("#end_crystal", location);
-                    } else {
+                    if (damager != null) {
                         api.logInteraction(damager, location);
+                    } else {
+                        api.logInteraction("#end_crystal", location);
                     }
                     break;
                 }

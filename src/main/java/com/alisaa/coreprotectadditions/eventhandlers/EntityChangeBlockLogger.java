@@ -1,7 +1,8 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Tag;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -24,20 +25,22 @@ public class EntityChangeBlockLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityBlockChange(EntityChangeBlockEvent e) {
+        Block block = e.getBlock();
+        Location location = block.getLocation();
         if (ConfigHandler.LOG_WEAVING && e.getTo() == Material.COBWEB &&
                 e.getEntity() instanceof LivingEntity le &&
                 le.getPotionEffect(PotionEffectType.WEAVING) != null) {
-            api.logPlacement("#weaving", e.getBlock().getLocation(), Material.COBWEB, null);
+            api.logPlacement("#weaving", location, Material.COBWEB, null);
             return;
         }
         if (ConfigHandler.LOG_ZOMBIE_DOOR_BREAK && e instanceof EntityBreakDoorEvent) {
-            api.logRemoval(e.getEntity(), e.getBlock().getLocation(), e.getBlock().getType());
+            api.logRemoval(e.getEntity(), location, block.getType());
             return;
         }
         if (ConfigHandler.LOG_SILVERFISH_INFESTATION && e.getEntityType() == EntityType.SILVERFISH
-                && !Tag.AIR.getValues().contains(e.getTo())) { // coreprotect already logs silverfish exiting
-            api.logRemoval("#silverfish", e.getBlock().getState());
-            api.logPlacement("#silverfish", e.getBlock().getLocation(), e.getTo(), null);
+                && !e.getTo().isAir()) { // coreprotect already logs silverfish exiting
+            api.logRemoval("#silverfish", block.getState());
+            api.logPlacement("#silverfish", location, e.getTo(), null);
         }
     }
 
