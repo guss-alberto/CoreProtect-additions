@@ -1,6 +1,5 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Creeper;
@@ -14,7 +13,6 @@ import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.projectiles.ProjectileSource;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.ConfigHandler;
