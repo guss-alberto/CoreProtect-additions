@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import net.coreprotect.CoreProtect;
 import net.coreprotect.utility.VersionUtils;
 
 public class ConfigHandler {
@@ -58,6 +59,7 @@ public class ConfigHandler {
     public static boolean LOG_RIDE_AS_CLICK;
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean EXPERIMENTAL_ENTITY_CONTAINER_LOGGER;
+    public static final boolean LOG_LECTERN_INSERT = coVersion() < 2;
 
     private ConfigHandler() {
     }
@@ -77,8 +79,10 @@ public class ConfigHandler {
         LOG_FROST_WALKER = addConfigOption("log-frost-walker", true);
         LOG_SILVERFISH_INFESTATION = addConfigOption("log-silverfish-infestation", true,
                 "# Silverfish breaking blocks by exiting are already logged by coreprotect");
-        LOG_ZOMBIE_DOOR_BREAK = addConfigOption("log-zombie-break-door", true);
-        LOG_FLOWER_POT = addConfigOption("log-flower-pot", true);
+        if (coVersion() < 2){
+            LOG_ZOMBIE_DOOR_BREAK = addConfigOption("log-zombie-break-door", true);
+            LOG_FLOWER_POT = addConfigOption("log-flower-pot", true);
+        }
         LOG_SPONGE = addConfigOption("log-sponge-absorbe", true,
                 "# Logs sponge removing water as user '#sponge' reagrdless of who placed it");
         LOG_LEASHES = addConfigOption("log-leashes", true);
@@ -92,8 +96,10 @@ public class ConfigHandler {
         LOG_REDSTONE_TNT_IGNITE = addConfigOption("log-redstone-tnt-ignite", true,
                 "# Useful for farms where TNT duping is enabled\n"
                         + "# Finding TNT ignited by redstone torches or levers might");
-        LOG_WIND_CHARGE_THROW = addConfigOption("log-wind-charge-throw", true,
-                "# Whether to log throwing wind charges as item actions like throwing ender pearls");
+        if (coVersion() < 2) {
+            LOG_WIND_CHARGE_THROW = addConfigOption("log-wind-charge-throw", true,
+                    "# Whether to log throwing wind charges as item actions like throwing ender pearls");
+        }
         LOG_WIND_CHARGE_CLICK = addConfigOption("log-wind-charge-interact", true,
                 "# Whether to log throwing wind charges toggling doors, lever and buttons as click actions by the player or entity who threw them");
         LOG_BOAT = addConfigOption("log-boats", true,
@@ -158,6 +164,43 @@ public class ConfigHandler {
             Bukkit.getLogger().severe("Failed to save config file");
             e.printStackTrace();
         }
+    }
+
+
+    // -1: unable to determine version
+    // 0: Anything before 23.0
+    // 1: Between community 23.0 and edge 24.0
+    // 2: After 24.0
+    // everything else is reserved for future use
+    // this garbage is necessary because the Community edition has different version numbering schemes
+    // I should probably make this an actual doscstring but i don't care enough to change it 
+    public static int coVersion(){
+        String coVersion = VersionUtils.getPluginVersion();
+        int apiVersion = CoreProtect.getInstance().getAPI().APIVersion();
+        if (VersionUtils.newVersion(coVersion, "23.0")){
+            return 0;
+        }
+
+        if(VersionUtils.isBranch("edge")){
+            if (!VersionUtils.newVersion(coVersion, "24.0")){
+                return 2;
+            }
+            if (!VersionUtils.newVersion(coVersion, "23.3")){
+                return 1;
+            }
+        }
+
+
+        if (!VersionUtils.newVersion(coVersion, "23.2") && apiVersion >= 12){
+            return 2;
+        }
+
+        if (!VersionUtils.newVersion(coVersion, "23.0")){
+            return 1;
+        }
+
+        Bukkit.getLogger().severe("Failed to determine CoreProtect version");
+        return -1;
     }
 
     private static boolean addConfigOption(String key, Boolean defaultValue, String descrption) {

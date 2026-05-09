@@ -59,10 +59,11 @@ public class MiscLogger implements Listener {
         }
     }
 
-    // let's hope this one gets fixed on CoreProtect.
     @EventHandler(ignoreCancelled = true)
     public void onPlayerAddBook(PlayerInsertLecternBookEvent e) {
-        api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
+        if (ConfigHandler.LOG_LECTERN_INSERT){
+            api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
+        }
     }
 
     @EventHandler(ignoreCancelled = true)

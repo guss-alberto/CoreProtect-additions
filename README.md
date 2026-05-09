@@ -8,6 +8,7 @@ CoreProtect-additions is an addon for [CoreProtect](https://modrinth.com/plugin/
 
 Logging has been added for
 - Renaming mobs with a name tag
+- Using a golden dandelion on a mob
 - Starting raids
 - Dyeing entities
 - Placing and breaking boats and Minecarts
@@ -60,6 +61,7 @@ The `a:click` action is used for everything else:
 - `a:click i:respawn_anchor`: setting spawn on a Respawn Anchor or exploding it.
 - `a:click i:<spawn_egg>`: clicking on a chested mob (Llama, donkey, etc..).
 - `a:click i:<vehicle>`: clicking on an inventory vehicle (Hopper cart, chest boat, etc..), or mounting/dismounting it (boat, minecart).
+- `a:click i:golden_dadelion`: using a golden dandelion on a mob, locking or unlocking growth. At the location of the mob.
 
 ----
 
