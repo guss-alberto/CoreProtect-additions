@@ -2,8 +2,11 @@ package com.alisaa.coreprotectadditions;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import net.coreprotect.CoreProtectAPI;
+import net.coreprotect.config.ConfigHandler;
 import net.coreprotect.consumer.Queue;
 import net.coreprotect.database.logger.ItemLogger;
 import net.coreprotect.listener.player.ProjectileLaunchListener;
@@ -31,7 +34,7 @@ public class ApiWrapper extends CoreProtectAPI {
     public static final EntityDeathListener entityDeathListener = new EntityDeathListener();
 
     public ApiWrapper() {
-        if (ConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER) {
+        if (AdditionsConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER) {
             try {
                 onInventoryInteract = (InventoryChangeListener.class).getDeclaredMethod("onInventoryInteract",
                         String.class, Inventory.class,
@@ -41,7 +44,7 @@ public class ApiWrapper extends CoreProtectAPI {
                 e.printStackTrace();
                 Bukkit.getLogger().severe("Unable to find onInventoryInteract method!");
                 Bukkit.getLogger().severe("Disabling EXPERIMENTAL_ENTITY_CONTAINER_LOGGER");
-                ConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = false;
+                AdditionsConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER = false;
                 onInventoryInteract = null;
             }
         }
@@ -120,9 +123,11 @@ public class ApiWrapper extends CoreProtectAPI {
     }
 
     public void logEntityKill(LivingEntity entity, DamageSource damage) {
-        // CoreProtect uses the last damage cuase so it needs to be damaged with a damage of zero for it to be logged correctly
+        // CoreProtect uses the last damage cuase so it needs to be damaged with a
+        // damage of zero for it to be logged correctly
         entity.damage(0, damage);
-        // The function that takes the entity directly is private, so we use call the eventHandler directly instead
+        // The function that takes the entity directly is private, so we use call the
+        // eventHandler directly instead
         EntityDeathEvent fakeEvent = new EntityDeathEvent(entity, damage, new ArrayList<>());
         entityDeathListener.onEntityDeath(fakeEvent);
         // shouldn't be necessary, but cancel it just to be sure
@@ -152,12 +157,23 @@ public class ApiWrapper extends CoreProtectAPI {
         logEntityKill(entity, damage);
     }
 
-    public boolean logItemPickup(Player user, Location location, ItemStack item) {
-        if (this.isEnabled() && location != null && user != null) {
-            EntityPickupItemListener.onItemPickup(user, location, item);
+    // CoreProtect's built-in only supports Players so I re-made it 
+    public boolean logItemPickup(String user, Location location, ItemStack item) {
+        if (this.isEnabled() && location != null && user != null && item != null) {
+            String loggingItemId = user + "." + location.getBlockX() + "." + location.getBlockY() + "." + location.getBlockZ();
+            int itemId = getItemId(loggingItemId);
+            List<ItemStack> list = ConfigHandler.itemsPickup.getOrDefault(loggingItemId, new ArrayList<>());
+            list.add(item.clone());
+            ConfigHandler.itemsPickup.put(loggingItemId, list);
+            int time = (int) (System.currentTimeMillis() / 1000L) + 1;
+            Queue.queueItemTransaction(user, location.clone(), time, 0, itemId);
             return true;
         }
         return false;
+    }
+
+    public boolean logItemPickup(Entity user, Location location, ItemStack item) {
+        return logItemPickup(formatUser(user), location, item);
     }
 
     public boolean logItemDrop(String user, Location location, ItemStack item) {

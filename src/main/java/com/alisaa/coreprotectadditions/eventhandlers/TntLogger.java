@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
-import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.alisaa.coreprotectadditions.AdditionsConfigHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -37,7 +37,7 @@ public class TntLogger implements Listener {
         PrimeCause cause = e.getCause();
         switch (cause) {
             case REDSTONE:
-                if (ConfigHandler.LOG_REDSTONE_TNT_IGNITE){
+                if (AdditionsConfigHandler.LOG_REDSTONE_TNT_IGNITE){
                     api.logInteraction("#redstone", location);
                 }
                 break;

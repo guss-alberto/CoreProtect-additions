@@ -20,7 +20,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import com.alisaa.coreprotectadditions.ApiWrapper;
-import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.alisaa.coreprotectadditions.AdditionsConfigHandler;
 
 public class WindChargeLogger implements Listener {
     private ApiWrapper api;
@@ -57,7 +57,7 @@ public class WindChargeLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onWindChargeExplosion(EntityExplodeEvent e) {
-        if (!ConfigHandler.LOG_WIND_CHARGE_CLICK || e.getExplosionResult() != ExplosionResult.TRIGGER_BLOCK) {
+        if (!AdditionsConfigHandler.LOG_WIND_CHARGE_CLICK || e.getExplosionResult() != ExplosionResult.TRIGGER_BLOCK) {
             return;
         }
 
@@ -77,7 +77,7 @@ public class WindChargeLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onWindChargeLaunch(ProjectileLaunchEvent e) {
-        if (!ConfigHandler.LOG_WIND_CHARGE_THROW){
+        if (!AdditionsConfigHandler.LOG_WIND_CHARGE_THROW){
             return;
         }
         if (e.getEntity() instanceof WindCharge windCharge && windCharge.getShooter() instanceof Player player) {

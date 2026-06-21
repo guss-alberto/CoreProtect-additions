@@ -24,32 +24,33 @@ public class Main extends JavaPlugin {
             pluginManager.disablePlugin(this);
             return;
         }
-        ConfigHandler.initConfig(this);
+        AdditionsConfigHandler.initConfig(this);
         api = new ApiWrapper();        
         instance = this;
 
-        if (ConfigHandler.CHECK_FOR_UPDATES){
+        if (AdditionsConfigHandler.CHECK_FOR_UPDATES){
             Updater.checkForUpdates(this);
         }
 
 
-        if (ConfigHandler.LOG_LEASHES){
+        if (AdditionsConfigHandler.LOG_LEASHES){
             pluginManager.registerEvents(new LeashLogger(api), this);
         }
-        if (ConfigHandler.LOG_SPONGE){
+        if (AdditionsConfigHandler.LOG_SPONGE){
             pluginManager.registerEvents(new SpongeLogger(api), this);
         }
-        if (ConfigHandler.LOG_FISH_BUCKETS){
+        if (AdditionsConfigHandler.LOG_FISH_BUCKETS){
             pluginManager.registerEvents(new FishBucketLogger(api), this);
         }
-        if (ConfigHandler.LOG_AGE_LOCK){
+        if (AdditionsConfigHandler.LOG_AGE_LOCK){
             pluginManager.registerEvents(new GoldenDandelionLogger(api), this);
         }
-        if (ConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER){
+        if (AdditionsConfigHandler.EXPERIMENTAL_ENTITY_CONTAINER_LOGGER){
             getLogger().warning("You are using the experimental entity container logger");
             pluginManager.registerEvents(new EntityInventoryLogger(api), this);
         }
         
+        pluginManager.registerEvents(new EntityItemLogger(api), this);
         pluginManager.registerEvents(new WindChargeLogger(api), this);
         pluginManager.registerEvents(new MiscLogger(api), this);
         pluginManager.registerEvents(new EntityChangeBlockLogger(api), this);

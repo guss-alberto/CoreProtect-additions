@@ -15,7 +15,7 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.persistence.PersistentDataType;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
-import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.alisaa.coreprotectadditions.AdditionsConfigHandler;
 import com.alisaa.coreprotectadditions.Main;
 
 public class MobExplosionLogger implements Listener {
@@ -28,7 +28,7 @@ public class MobExplosionLogger implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onExplosionPrime(ExplosionPrimeEvent e) {
         Entity entity = e.getEntity();
-        if (ConfigHandler.LOG_CREEPER && entity instanceof Creeper creeper) {
+        if (AdditionsConfigHandler.LOG_CREEPER && entity instanceof Creeper creeper) {
             Entity igniter = creeper.getIgniter();
             if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
                 return;
@@ -41,7 +41,7 @@ public class MobExplosionLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onProjectileLaunch(ProjectileLaunchEvent e) {
-        if (ConfigHandler.LOG_FIREBALL &&
+        if (AdditionsConfigHandler.LOG_FIREBALL &&
                 e.getEntity() instanceof SizedFireball fireball &&
                 fireball.getShooter() instanceof Mob mob) {
             fireball.getPersistentDataContainer().set(
@@ -53,7 +53,7 @@ public class MobExplosionLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onFireballHit(ProjectileHitEvent e) {
-        if (ConfigHandler.LOG_FIREBALL && e.getEntity() instanceof SizedFireball fireball) {
+        if (AdditionsConfigHandler.LOG_FIREBALL && e.getEntity() instanceof SizedFireball fireball) {
             String user = fireball.getPersistentDataContainer().get(targetKey, PersistentDataType.STRING);
 
             if (user == null || user.isEmpty()){

@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.raid.RaidTriggerEvent;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
-import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.alisaa.coreprotectadditions.AdditionsConfigHandler;
 import com.destroystokyo.paper.event.entity.EntityZapEvent;
 
 import io.papermc.paper.event.entity.EntityDyeEvent;
@@ -26,28 +26,28 @@ public class MiscLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerNameEntityEvent(PlayerNameEntityEvent e) {
-        if (ConfigHandler.LOG_ENTITY_RENAME) {
+        if (AdditionsConfigHandler.LOG_ENTITY_RENAME) {
             api.logPlacement(e.getPlayer().getName(), e.getEntity().getLocation(), Material.NAME_TAG, null);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onRaidTrigger(RaidTriggerEvent e) {
-        if (ConfigHandler.LOG_RAIDS) {
+        if (AdditionsConfigHandler.LOG_RAIDS) {
             api.logRemoval(e.getPlayer().getName(), e.getRaid().getLocation(), Material.OMINOUS_BOTTLE, null);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onLightningConversion(EntityZapEvent e) {
-        if (e.getEntity() instanceof LivingEntity entity){
+        if (AdditionsConfigHandler.LOG_FLOWER_POT && e.getEntity() instanceof LivingEntity entity){
             api.logEntityKill(entity, e.getBolt(), DamageType.LIGHTNING_BOLT);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onFlowerPotManipulate(PlayerFlowerPotManipulateEvent e) {
-        if (!ConfigHandler.LOG_FLOWER_POT){
+        if (!AdditionsConfigHandler.LOG_FLOWER_POT){
             return;
         }
         api.logRemoval(e.getPlayer().getName(), e.getFlowerpot().getState());
@@ -61,14 +61,14 @@ public class MiscLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerAddBook(PlayerInsertLecternBookEvent e) {
-        if (ConfigHandler.LOG_LECTERN_INSERT){
+        if (AdditionsConfigHandler.LOG_LECTERN_INSERT){
             api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onEntityDye(EntityDyeEvent e) {
-        if (!ConfigHandler.LOG_ENTITY_DYE) {
+        if (!AdditionsConfigHandler.LOG_ENTITY_DYE) {
             return;
         }
 

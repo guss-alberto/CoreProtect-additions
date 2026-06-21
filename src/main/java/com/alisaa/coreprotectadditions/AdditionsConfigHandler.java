@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.utility.VersionUtils;
 
-public class ConfigHandler {
+public class AdditionsConfigHandler {
     public static final String HEADER = """
             # CoreProtect-additions by itsAlisaa
             # Configuration file, for more info on the plugin check out the readme https://github.com/guss-alberto/CoreProtect-additions
@@ -59,9 +59,14 @@ public class ConfigHandler {
     public static boolean LOG_RIDE_AS_CLICK;
     public static boolean LOG_ENTITY_CONTAINER_CLICK;
     public static boolean EXPERIMENTAL_ENTITY_CONTAINER_LOGGER;
+    public static boolean LOG_LIGHTNING_CONVERSION;
+    public static boolean LOG_VILLAGER_ITEM;
+    public static boolean LOG_PIGLIN_ITEM;
+    public static boolean LOG_ALLAY_ITEM;
+    public static boolean LOG_OTHER_ENTITY_ITEM;
     public static final boolean LOG_LECTERN_INSERT = coVersion() < 2;
 
-    private ConfigHandler() {
+    private AdditionsConfigHandler() {
     }
 
     static void initConfig(Plugin plugin) {
@@ -77,6 +82,12 @@ public class ConfigHandler {
         LOG_AGE_LOCK = addConfigOption("log-dandelion-age-lock", true, null, "26.1.2");
         LOG_GOLDEN_DADELION = addConfigOption("log-entity-rename", true);
         LOG_FROST_WALKER = addConfigOption("log-frost-walker", true);
+
+        if (coVersion() < 2) {
+            LOG_LIGHTNING_CONVERSION = addConfigOption("log-lightning-conversion", true,
+                    "# Whether to log mobs getting converted by lightning as being killed by #lightning");
+        }
+
         LOG_SILVERFISH_INFESTATION = addConfigOption("log-silverfish-infestation", true,
                 "# Silverfish breaking blocks by exiting are already logged by coreprotect");
         if (coVersion() < 2){
@@ -102,6 +113,14 @@ public class ConfigHandler {
         }
         LOG_WIND_CHARGE_CLICK = addConfigOption("log-wind-charge-interact", true,
                 "# Whether to log throwing wind charges toggling doors, lever and buttons as click actions by the player or entity who threw them");
+
+        LOG_VILLAGER_ITEM = addConfigOption("log-villager-item", true,
+                "\n#Log picking up/dropping items for the following mobs");
+        LOG_PIGLIN_ITEM = addConfigOption("log-piglin-item", true);
+        LOG_ALLAY_ITEM = addConfigOption("log-allay-item", true);
+        LOG_OTHER_ENTITY_ITEM = addConfigOption("log-other-entity-item", true, "# For any other entity, except players, player item pickups is handled by CoreProtect");
+
+        
         LOG_BOAT = addConfigOption("log-boats", true,
                 "\n#Log breaking/placing for the following vehicle entities");
         LOG_CHEST_BOAT = addConfigOption("log-chest-boats", true);
@@ -190,8 +209,7 @@ public class ConfigHandler {
             }
         }
 
-
-        if (!VersionUtils.newVersion(coVersion, "23.2") && apiVersion >= 12){
+        if (!VersionUtils.newVersion(coVersion, "24.0") || !VersionUtils.newVersion(coVersion, "23.2") && apiVersion >= 12){
             return 2;
         }
 

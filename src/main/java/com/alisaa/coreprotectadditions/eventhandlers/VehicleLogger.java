@@ -21,7 +21,7 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
-import com.alisaa.coreprotectadditions.ConfigHandler;
+import com.alisaa.coreprotectadditions.AdditionsConfigHandler;
 
 public class VehicleLogger implements Listener {
     private ApiWrapper api;
@@ -37,19 +37,19 @@ public class VehicleLogger implements Listener {
 
         if (entity instanceof Boat) {
             if ( entity instanceof ChestBoat ){
-                return ConfigHandler.LOG_CHEST_BOAT;
+                return AdditionsConfigHandler.LOG_CHEST_BOAT;
             }
-            return ConfigHandler.LOG_BOAT;
+            return AdditionsConfigHandler.LOG_BOAT;
         }
 
         if (entity instanceof Minecart){
             if (entity instanceof HopperMinecart){
-                return ConfigHandler.LOG_HOPPER_MINECART;
+                return AdditionsConfigHandler.LOG_HOPPER_MINECART;
             }
             if (entity instanceof StorageMinecart){
-                return ConfigHandler.LOG_CHEST_MINECART;
+                return AdditionsConfigHandler.LOG_CHEST_MINECART;
             }
-            return ConfigHandler.LOG_MINECART;
+            return AdditionsConfigHandler.LOG_MINECART;
         }
 
         return false;
@@ -58,26 +58,26 @@ public class VehicleLogger implements Listener {
     private boolean shouldLogRiding(Entity entity) {
         if (entity instanceof Mob) {
             if (entity instanceof ChestedHorse ch){
-                return ConfigHandler.LOG_CHESTED_HORSE_RIDE && ch.isCarryingChest();
+                return AdditionsConfigHandler.LOG_CHESTED_HORSE_RIDE && ch.isCarryingChest();
             }
-            return ConfigHandler.LOG_MOB_RIDE;
+            return AdditionsConfigHandler.LOG_MOB_RIDE;
         }
-        if (ConfigHandler.LOG_MINECART_RIDE && entity instanceof Minecart) {
+        if (AdditionsConfigHandler.LOG_MINECART_RIDE && entity instanceof Minecart) {
             return true;
         }
 
         if (entity instanceof Boat) {
             if ( entity instanceof ChestBoat ){
-                return ConfigHandler.LOG_CHEST_BOAT_RIDE;
+                return AdditionsConfigHandler.LOG_CHEST_BOAT_RIDE;
             }
-            return ConfigHandler.LOG_BOAT_RIDE;
+            return AdditionsConfigHandler.LOG_BOAT_RIDE;
         }
 
         return false;
     }
 
     private boolean shouldLogClick(Entity entity) {
-        if (!ConfigHandler.LOG_ENTITY_CONTAINER_CLICK) {
+        if (!AdditionsConfigHandler.LOG_ENTITY_CONTAINER_CLICK) {
             return false;
         }
 
@@ -129,7 +129,7 @@ public class VehicleLogger implements Listener {
     public void onEntityMount(EntityMountEvent e) {
         Entity rider = e.getEntity();
 
-        if (!ConfigHandler.LOG_NON_PLAYER_RIDE && !(rider instanceof Player)) {
+        if (!AdditionsConfigHandler.LOG_NON_PLAYER_RIDE && !(rider instanceof Player)) {
             return;
         }
 
@@ -140,7 +140,7 @@ public class VehicleLogger implements Listener {
         }
 
         Material type = mount.getPickItemStack().getType();
-        if (!(mount instanceof Mob) && ConfigHandler.LOG_RIDE_AS_CLICK) {
+        if (!(mount instanceof Mob) && AdditionsConfigHandler.LOG_RIDE_AS_CLICK) {
             api.logInteraction(rider, mount.getLocation(), type);
         } else {
             api.logPlacement(rider, mount.getLocation(), type);
@@ -162,7 +162,7 @@ public class VehicleLogger implements Listener {
         }
 
         Material type = mount.getPickItemStack().getType();
-        if (!(mount instanceof Mob) && ConfigHandler.LOG_RIDE_AS_CLICK) {
+        if (!(mount instanceof Mob) && AdditionsConfigHandler.LOG_RIDE_AS_CLICK) {
             api.logInteraction(rider, mount.getLocation(), type);
         } else {
             api.logRemoval(rider, mount.getLocation(), type);
