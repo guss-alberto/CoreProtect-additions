@@ -1,6 +1,9 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
+import java.util.Collection;
+
 import org.bukkit.ExplosionResult;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Bisected;
@@ -10,12 +13,15 @@ import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Gate;
 import org.bukkit.block.data.type.Switch;
 import org.bukkit.block.data.type.TrapDoor;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.AbstractWindCharge;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.WindCharge;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
@@ -71,6 +77,37 @@ public class WindChargeLogger implements Listener {
                 if (isAffectedByWindCharge(block.getBlockData())) {
                     api.logInteraction(user, block.getLocation());
                 }
+            }
+        }
+    }
+
+    private String getNameOfTheFirstOneWithTheMace(Collection<LivingEntity> entities){
+        for (LivingEntity entity : entities){
+            ItemStack heldItem = entity.getEquipment().getItemInMainHand();
+            if (heldItem.getEnchantments().containsKey(Enchantment.WIND_BURST)){
+                return ApiWrapper.formatUser(entity);
+            }
+        }
+        return "#wind_burst";
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onWindBurstExplosion(BlockExplodeEvent e) {
+        if (!AdditionsConfigHandler.LOG_WIND_CHARGE_CLICK || e.getExplosionResult() != ExplosionResult.TRIGGER_BLOCK) {
+            return;
+        }
+
+        // Because mojang decided to not attribute the explosion to the player i have to do this
+        Location loc = e.getBlock().getLocation();
+
+        // And i can't even get the accurate location because papermc thinks it's a block explosion,
+        // so i have to do this too...
+        Collection<LivingEntity> entities = loc.getNearbyLivingEntities(1);
+        String user = getNameOfTheFirstOneWithTheMace(entities);
+        
+        for (Block block : e.blockList()) {
+            if (isAffectedByWindCharge(block.getBlockData())) {
+                api.logInteraction(user, block.getLocation());
             }
         }
     }
