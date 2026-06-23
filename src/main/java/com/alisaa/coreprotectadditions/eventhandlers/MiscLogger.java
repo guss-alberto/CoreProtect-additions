@@ -2,10 +2,12 @@ package com.alisaa.coreprotectadditions.eventhandlers;
 
 import org.bukkit.Material;
 import org.bukkit.damage.DamageType;
+import org.bukkit.entity.Allay;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.raid.RaidTriggerEvent;
 
 import com.alisaa.coreprotectadditions.ApiWrapper;
@@ -40,8 +42,15 @@ public class MiscLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onLightningConversion(EntityZapEvent e) {
-        if (AdditionsConfigHandler.LOG_FLOWER_POT && e.getEntity() instanceof LivingEntity entity){
+        if (AdditionsConfigHandler.LOG_LIGHTNING_CONVERSION && e.getEntity() instanceof LivingEntity entity) {
             api.logEntityKill(entity, e.getBolt(), DamageType.LIGHTNING_BOLT);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerInteractEntity (PlayerInteractAtEntityEvent e){
+        if ( e.getRightClicked() instanceof Allay allay ){
+            api.logInteraction(e.getPlayer(), allay.getLocation(), Material.ALLAY_SPAWN_EGG);
         }
     }
 
@@ -61,7 +70,7 @@ public class MiscLogger implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerAddBook(PlayerInsertLecternBookEvent e) {
-        if (AdditionsConfigHandler.LOG_LECTERN_INSERT){
+        if (AdditionsConfigHandler.LOG_LECTERN_INSERT) {
             api.logContainerTransaction(e.getPlayer().getName(), e.getLectern().getLocation());
         }
     }
