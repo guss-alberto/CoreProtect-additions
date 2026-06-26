@@ -1,10 +1,10 @@
 # CoreProtect-additions
 
+## WARNING: Due to a bug in the latest 24.0 version, this plugin does not work correctly, please use 23.0 or compile an earlier build from CoreProtect GitHub. You can find help on the Discord linked here.
+
 ![Visual representation of some of the things CoreProtect-additions logs](https://cdn.modrinth.com/data/OSx6M73S/images/a7104ef3283f384467ed3c4d6225f0bee8c85c5c.png)
 
 CoreProtect-additions is an addon for [CoreProtect](https://modrinth.com/plugin/coreprotect) that adds logging for extra features that are currently unsupported by CoreProtect.
-
-## WARNING: THIS IS A BETA, HAS ONLY BEEN TESTED IN 1.21.11 PLEASE REPORT ANY ISSUES YOU FIND ON DISCORD OR GITHUB, I WILL TRY TO FIX THEM AS SOON AS POSSIBLE
 
 Logging has been added for
 - Renaming mobs with a name tag
@@ -30,7 +30,9 @@ Logging has been added for
 - Frost walker
 - Picking up and placing bucketable mobs (fish, axolotl etc.)
 - Villagers and pigs getting converted by lightning
-- EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts )
+- Entities picking up and dropping items (Allays, zombies etc)
+- Players giving and taking items to allays directly
+- EXPERIMENTAL ENTITY CONTAINER LOGGING (for Chest Minecarts, Hopper Minecarts)
 
 # Logging details
 
@@ -80,6 +82,8 @@ Weaving is logged as user "**#weaving**" placing cobwebs.
 Potted plants are logged as the player breaking the pot and placing a new potted_plant, making it rollbackable.
 
 Lightning conversion is logged as user **#lightning** killing the mob, making it rollbackable.
+
+Giving items to allays is logged as the player dropping the item and **#allay** picking it up. Location of the Allay.
 
 # Config
 Config is available, entries should be fairly self-explanatory, and comments are present in the config.
