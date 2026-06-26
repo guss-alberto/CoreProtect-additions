@@ -64,6 +64,7 @@ public class AdditionsConfigHandler {
     public static boolean LOG_PIGLIN_ITEM;
     public static boolean LOG_ALLAY_ITEM;
     public static boolean LOG_OTHER_ENTITY_ITEM;
+    public static boolean LOG_ALLAY_SWITCH_ITEM;
     public static final boolean LOG_LECTERN_INSERT = coVersion() < 2;
 
     private AdditionsConfigHandler() {
@@ -83,10 +84,10 @@ public class AdditionsConfigHandler {
         LOG_GOLDEN_DADELION = addConfigOption("log-entity-rename", true);
         LOG_FROST_WALKER = addConfigOption("log-frost-walker", true);
 
-        if (coVersion() < 2) {
+        //if (coVersion() < 2) {
             LOG_LIGHTNING_CONVERSION = addConfigOption("log-lightning-conversion", true,
                     "# Whether to log mobs getting converted by lightning as being killed by #lightning");
-        }
+        //}
 
         LOG_SILVERFISH_INFESTATION = addConfigOption("log-silverfish-infestation", true,
                 "# Silverfish breaking blocks by exiting are already logged by coreprotect");
@@ -119,6 +120,7 @@ public class AdditionsConfigHandler {
         LOG_PIGLIN_ITEM = addConfigOption("log-piglin-item", true);
         LOG_ALLAY_ITEM = addConfigOption("log-allay-item", true);
         LOG_OTHER_ENTITY_ITEM = addConfigOption("log-other-entity-item", true, "# For any other entity, except players, player item pickups is handled by CoreProtect");
+        LOG_ALLAY_SWITCH_ITEM = addConfigOption("log-allay-switch-item", true, "# Whether to log swapping the item in an allay's main hand as dropping and picking up");
 
         
         LOG_BOAT = addConfigOption("log-boats", true,
