@@ -38,7 +38,6 @@ public class EntityItemLogger implements Listener {
         }
     }
 
-
     @EventHandler(ignoreCancelled = true)
     public void onItemDrop(EntityDropItemEvent e){
         if (shouldLogItem(e.getEntityType())){

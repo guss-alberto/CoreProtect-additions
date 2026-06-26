@@ -58,5 +58,6 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new BedLogger(api), this);
         pluginManager.registerEvents(new TntLogger(api), this);
         pluginManager.registerEvents(new VehicleLogger(api), this);
+        pluginManager.registerEvents(new AllayLogger(api), this);
     }
 }

@@ -48,13 +48,6 @@ public class MiscLogger implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerInteractEntity (PlayerInteractAtEntityEvent e){
-        if ( e.getRightClicked() instanceof Allay allay ){
-            api.logInteraction(e.getPlayer(), allay.getLocation(), Material.ALLAY_SPAWN_EGG);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
     public void onFlowerPotManipulate(PlayerFlowerPotManipulateEvent e) {
         if (!AdditionsConfigHandler.LOG_FLOWER_POT){
             return;
