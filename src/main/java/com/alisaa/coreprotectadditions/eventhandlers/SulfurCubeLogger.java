@@ -23,7 +23,8 @@ import com.alisaa.coreprotectadditions.Main;
 import io.papermc.paper.event.entity.EntityPushedByEntityAttackEvent;
 
 public class SulfurCubeLogger implements Listener {
-    public static final int MAX_ATTRIBUTION_TICKS_AFTER_HIT = 200 + 120; // 10 s + 6 seconds of fuse
+    public static final int DEFAULT_SULFUR_CUBE_FUSE = 120;
+    public static final int MAX_ATTRIBUTION_TICKS_AFTER_HIT = 200 + DEFAULT_SULFUR_CUBE_FUSE; // 10 s + 6 seconds of fuse
 
     public static final NamespacedKey igniterKey = new NamespacedKey(Main.getInstance(), "igniter");
     public static final NamespacedKey lastPlayerHitKey = new NamespacedKey(Main.getInstance(), "last_player_hit");
@@ -43,14 +44,21 @@ public class SulfurCubeLogger implements Listener {
 
         ItemStack item = e.getPlayer().getInventory().getItem(e.getHand());
         if (item.getType() == Material.FLINT_AND_STEEL || item.getType() == Material.FIRE_CHARGE) {
-            sCube.getPersistentDataContainer().set(igniterKey, PersistentDataType.STRING, ApiWrapper.formatUser(e.getPlayer()));
+            sCube.getPersistentDataContainer().set(igniterKey, PersistentDataType.STRING, e.getPlayer().getName());
+        }
+
+        // Track when a player gives the sulfur cube TNT the first time
+        if (item.getType() == Material.TNT && !sCube.canExplode()){
+            PersistentDataContainer pdc = sCube.getPersistentDataContainer();
+            pdc.set(lastPlayerHitKey, PersistentDataType.STRING,  e.getPlayer().getName());
+            pdc.set(lastHitTimeKey, PersistentDataType.INTEGER, Bukkit.getCurrentTick());
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSulfurCubeHit(EntityPushedByEntityAttackEvent e) {
-        // Only log if sulfur cube is not already ignited
-        if (e.getEntity() instanceof SulfurCube sCube && sCube.getFuseTicks() == -1) {
+        // Only log if sulfur cube is not already ignited, or if it ignited this very tick
+        if (e.getEntity() instanceof SulfurCube sCube && (sCube.getFuseTicks() == -1 || sCube.getFuseTicks() == DEFAULT_SULFUR_CUBE_FUSE)) {
             Entity attacker = e.getPushedBy();
 
             if (attacker instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity){
@@ -85,7 +93,7 @@ public class SulfurCubeLogger implements Listener {
                 return;
             }
 
-            if (pdc.has(lastPlayerHitKey, PersistentDataType.STRING) && pdc.has(lastHitTimeKey, PersistentDataType.LONG)) {
+            if (pdc.has(lastPlayerHitKey, PersistentDataType.STRING) && pdc.has(lastHitTimeKey, PersistentDataType.INTEGER)) {
                 int lastHitTime = pdc.get(lastHitTimeKey, PersistentDataType.INTEGER);
                 if (Bukkit.getCurrentTick() - lastHitTime < MAX_ATTRIBUTION_TICKS_AFTER_HIT) {
                     String lastHitPlayer = pdc.get(lastPlayerHitKey, PersistentDataType.STRING);
