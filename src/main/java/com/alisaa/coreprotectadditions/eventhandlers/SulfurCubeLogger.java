@@ -1,14 +1,17 @@
 package com.alisaa.coreprotectadditions.eventhandlers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.HappyGhast;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.entity.SulfurCube;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -17,14 +20,15 @@ import org.bukkit.persistence.PersistentDataType;
 import com.alisaa.coreprotectadditions.ApiWrapper;
 import com.alisaa.coreprotectadditions.Main;
 
-import io.papermc.paper.event.entity.EntityIgniteEvent;
 import io.papermc.paper.event.entity.EntityPushedByEntityAttackEvent;
 
 public class SulfurCubeLogger implements Listener {
+    public static final int MAX_ATTRIBUTION_TICKS_AFTER_HIT = 200 + 120; // 10 s + 6 seconds of fuse
+
     public static final NamespacedKey igniterKey = new NamespacedKey(Main.getInstance(), "igniter");
     public static final NamespacedKey lastPlayerHitKey = new NamespacedKey(Main.getInstance(), "last_player_hit");
     public static final NamespacedKey lastHitTimeKey = new NamespacedKey(Main.getInstance(), "last_hit_time");
-    public static final NamespacedKey bucketOwnerKey = new NamespacedKey(Main.getInstance(), "bucket_owner");
+    //public static final NamespacedKey bucketOwnerKey = new NamespacedKey(Main.getInstance(), "bucket_owner");
     
     private final ApiWrapper api;
 
@@ -45,18 +49,21 @@ public class SulfurCubeLogger implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onSulfurCubeHit(EntityPushedByEntityAttackEvent e) {
-        if (e.getEntity() instanceof SulfurCube sCube) {
+        // Only log if sulfur cube is not already ignited
+        if (e.getEntity() instanceof SulfurCube sCube && sCube.getFuseTicks() == -1) {
             Entity attacker = e.getPushedBy();
+
+            if (attacker instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity){
+                attacker = shooterEntity;
+            }
 
             PersistentDataContainer pdc = sCube.getPersistentDataContainer();
             pdc.set(lastPlayerHitKey, PersistentDataType.STRING, ApiWrapper.formatUser(attacker));
-            pdc.set(lastHitTimeKey, PersistentDataType.LONG, System.currentTimeMillis());
-
-            System.err.println(ApiWrapper.formatUser(attacker));
+            pdc.set(lastHitTimeKey, PersistentDataType.INTEGER, Bukkit.getCurrentTick());
         }
     }
 
-    @EventHandler(ignoreCancelled = true)
+    /*@EventHandler(ignoreCancelled = true)
     public void onBucketEmpty(PlayerBucketEmptyEvent e) {
         if (e.getBucket() == Material.SULFUR_CUBE_BUCKET) {
             for (Entity entity : e.getBlock().getLocation().getNearbyLivingEntities(1)) {
@@ -65,10 +72,10 @@ public class SulfurCubeLogger implements Listener {
                 }
             }
         }
-    }
+    }*/
 
     @EventHandler(ignoreCancelled = true)
-    public void onSulfurCubeIgnite(EntityIgniteEvent e) {
+    public void onSulfurCubeIgnite(ExplosionPrimeEvent e) {
         if (e.getEntity() instanceof SulfurCube sCube) {
             PersistentDataContainer pdc = sCube.getPersistentDataContainer();
 
@@ -78,10 +85,9 @@ public class SulfurCubeLogger implements Listener {
                 return;
             }
 
-
             if (pdc.has(lastPlayerHitKey, PersistentDataType.STRING) && pdc.has(lastHitTimeKey, PersistentDataType.LONG)) {
-                long lastHitTime = pdc.get(lastHitTimeKey, PersistentDataType.LONG);
-                if (System.currentTimeMillis() - lastHitTime < 1000) {
+                int lastHitTime = pdc.get(lastHitTimeKey, PersistentDataType.INTEGER);
+                if (Bukkit.getCurrentTick() - lastHitTime < MAX_ATTRIBUTION_TICKS_AFTER_HIT) {
                     String lastHitPlayer = pdc.get(lastPlayerHitKey, PersistentDataType.STRING);
                     api.logInteraction(lastHitPlayer, sCube.getLocation(), Material.SULFUR_CUBE_SPAWN_EGG);
                     return;
@@ -93,11 +99,17 @@ public class SulfurCubeLogger implements Listener {
                 return;
             }
 
-            if (pdc.has(bucketOwnerKey, PersistentDataType.STRING)) {
+            // handle the happy ghast bomber thing
+            if (sCube.isLeashed() && sCube.getLeashHolder() instanceof HappyGhast happyGhast && !happyGhast.getPassengers().isEmpty()) {
+                api.logInteraction(ApiWrapper.formatUser(happyGhast.getPassengers().getFirst()), sCube.getLocation(), Material.SULFUR_CUBE_SPAWN_EGG);
+                return;
+            }
+
+            /*if (pdc.has(bucketOwnerKey, PersistentDataType.STRING)) {
                 String owner = pdc.get(bucketOwnerKey, PersistentDataType.STRING);
                 api.logInteraction(owner, sCube.getLocation(), Material.SULFUR_CUBE_SPAWN_EGG);
                 return;
-            }
+            }*/
 
             api.logInteraction("#sulfur_cube", sCube.getLocation(), Material.SULFUR_CUBE_SPAWN_EGG);
         }
