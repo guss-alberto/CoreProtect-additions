@@ -15,6 +15,7 @@ Logging has been added for
 - Mounting and dismounting entities
 - Igniting TNT
 - Cusing Creeper or Ghast fireballs to explode
+- Igniting sulfur cubes
 - Leashing and unleashing mobs
 - Setting spawn on a Bed or Respawn Anchor
 - Exploding a Bed or Respawn Anchor
@@ -23,7 +24,6 @@ Logging has been added for
 - Wind charge triggering blocks
 - Sponges absorbing water
 - Zombies breaking doors
-- Inserting books into lecterns
 - Adding and removing items to flower pots
 - Weaving potion effect placing cobwebs
 - Silverfish infesting blocks
@@ -58,6 +58,7 @@ Due to limitations of the CoreProtect API, these events are logged in sometimes 
 
 The `a:click` action is used for everything else:
 - `a:click i:tnt`: igniting TNT
+- `a:click i:sulfur_cube_spawn_egg`: igniying a sulfur cube with a flint and steel, hitting one into fire, or leashing on into fire. Logged at the location the cube was ignited. 
 - `a:click i:creeper_spawn_egg`: igniying a creeper with a flint and steel, coordinates of the creeper at time of explosion (NOT logged when the creeper was ignited).
 - `a:click i:<bed>`: setting spawn on a Bed or exploding it (with a specified bed colour e.g. `magenta_bed`) 
 - `a:click i:respawn_anchor`: setting spawn on a Respawn Anchor or exploding it.
