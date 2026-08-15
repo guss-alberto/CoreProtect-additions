@@ -97,7 +97,7 @@ Use with caution, the feature should disable itself until the next restart in ca
 
 # KNOWN ISSUE: WARNING
 Due to an issue in CoreProtect, rollback previews (`#preview`) can fail unexpectedly.
-To avoid this, you will have to exclude all items that may be causing the issue. You can find a complete list of items that may be causing the issue on [GitHub](https://github.com/guss-alberto/CoreProtect-additions/blob/main/invalid_block_actions.txt).
+To avoid this, you will have to exclude all items that may be causing the issue. You can find a complete list of items that may be causing the issue on [GitHub](https://github.com/agusmeroli/CoreProtect-additions/blob/main/invalid_block_actions.txt).
 
 NOTE: Regular rollbacks without the `#preview` option will work just fine.
 
