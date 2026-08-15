@@ -49,6 +49,10 @@ public class Main extends JavaPlugin {
             getLogger().warning("You are using the experimental entity container logger");
             pluginManager.registerEvents(new EntityInventoryLogger(api), this);
         }
+
+        if (AdditionsConfigHandler.LOG_SULFUR_CUBE){
+            pluginManager.registerEvents(new SulfurCubeLogger(api), this);
+        }
         
         pluginManager.registerEvents(new EntityItemLogger(api), this);
         pluginManager.registerEvents(new WindChargeLogger(api), this);
@@ -59,5 +63,6 @@ public class Main extends JavaPlugin {
         pluginManager.registerEvents(new TntLogger(api), this);
         pluginManager.registerEvents(new VehicleLogger(api), this);
         pluginManager.registerEvents(new AllayLogger(api), this);
+
     }
 }

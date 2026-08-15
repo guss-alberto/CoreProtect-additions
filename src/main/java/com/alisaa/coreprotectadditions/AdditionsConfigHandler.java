@@ -15,7 +15,7 @@ import net.coreprotect.utility.VersionUtils;
 public class AdditionsConfigHandler {
     public static final String HEADER = """
             # CoreProtect-additions by itsAlisaa
-            # Configuration file, for more info on the plugin check out the readme https://github.com/guss-alberto/CoreProtect-additions
+            # Configuration file, for more info on the plugin check out the readme https://github.com/agusmeroli/CoreProtect-additions
 
             # Note: user comments in this file DO NOT persist.
 
@@ -65,6 +65,7 @@ public class AdditionsConfigHandler {
     public static boolean LOG_ALLAY_ITEM;
     public static boolean LOG_OTHER_ENTITY_ITEM;
     public static boolean LOG_ALLAY_SWITCH_ITEM;
+    public static boolean LOG_SULFUR_CUBE;
     public static final boolean LOG_LECTERN_INSERT = coVersion() < 2;
 
     private AdditionsConfigHandler() {
@@ -80,14 +81,21 @@ public class AdditionsConfigHandler {
                         + "# Respawn block explosions will always be logged");
         LOG_ENTITY_DYE = addConfigOption("log-entity-dye", true);
         LOG_ENTITY_RENAME = addConfigOption("log-entity-rename", true);
-        LOG_AGE_LOCK = addConfigOption("log-dandelion-age-lock", true, null, "26.1.2");
+
+        if (!VersionUtils.newVersion(getMcversion(), "26.1.2")) {
+            LOG_AGE_LOCK = addConfigOption("log-dandelion-age-lock", true, null);
+        }
         LOG_GOLDEN_DADELION = addConfigOption("log-entity-rename", true);
         LOG_FROST_WALKER = addConfigOption("log-frost-walker", true);
 
-        //if (coVersion() < 2) {
+        if (coVersion() < 2) {
             LOG_LIGHTNING_CONVERSION = addConfigOption("log-lightning-conversion", true,
                     "# Whether to log mobs getting converted by lightning as being killed by #lightning");
-        //}
+        }
+
+        if (!VersionUtils.newVersion(getMcversion(), "26.2")) {
+            LOG_SULFUR_CUBE = addConfigOption("log-sulfur-cube-ignite", true, null);
+        }
 
         LOG_SILVERFISH_INFESTATION = addConfigOption("log-silverfish-infestation", true,
                 "# Silverfish breaking blocks by exiting are already logged by coreprotect");
@@ -191,7 +199,8 @@ public class AdditionsConfigHandler {
     // -1: unable to determine version
     // 0: Anything before 23.0
     // 1: Between community 23.0 and edge 24.0
-    // 2: After 24.0
+    // 2: 24.0
+    // 3: 24.1
     // everything else is reserved for future use
     // this garbage is necessary because the Community edition has different version numbering schemes
     // I should probably make this an actual doscstring but i don't care enough to change it 
@@ -232,13 +241,6 @@ public class AdditionsConfigHandler {
 
     private static boolean addConfigOption(String key, Boolean defaultValue) {
         return addConfigOption(key, defaultValue, null);
-    }
-
-    private static boolean addConfigOption(String key, Boolean defaultValue, String description, String version) {
-        if (!VersionUtils.newVersion(getMcversion(), version)) {
-            return addConfigOption(key, defaultValue, description);
-        }
-        return false;
     }
 
     public static String getMcversion() {

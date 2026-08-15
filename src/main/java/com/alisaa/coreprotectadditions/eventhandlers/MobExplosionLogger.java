@@ -30,7 +30,8 @@ public class MobExplosionLogger implements Listener {
         Entity entity = e.getEntity();
         if (AdditionsConfigHandler.LOG_CREEPER && entity instanceof Creeper creeper) {
             Entity igniter = creeper.getIgniter();
-            if (api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG)) {
+            if (igniter != null){
+                api.logInteraction(igniter, creeper.getLocation(), Material.CREEPER_SPAWN_EGG);
                 return;
             }
 

@@ -3,7 +3,6 @@ package com.alisaa.coreprotectadditions;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import net.coreprotect.CoreProtectAPI;
 import net.coreprotect.config.ConfigHandler;
@@ -11,7 +10,6 @@ import net.coreprotect.consumer.Queue;
 import net.coreprotect.database.logger.ItemLogger;
 import net.coreprotect.listener.player.ProjectileLaunchListener;
 import net.coreprotect.listener.entity.EntityDeathListener;
-import net.coreprotect.listener.entity.EntityPickupItemListener;
 import net.coreprotect.listener.player.InventoryChangeListener;
 import net.coreprotect.listener.player.PlayerDropItemListener;
 
